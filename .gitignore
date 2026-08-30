@@ -1,0 +1,18 @@
+# dependencies (node_modules here is a symlink to a sibling project)
+node_modules
+
+# working artefacts
+temporary screenshots/
+
+# internal working documents — not for a public repo
+CLIENT_BRIEF.md
+Project management Course _ Бриф.txt
+CLAUDE.md
+SKILL.md
+SKILL canvas.md
+GEMINI_IMAGE_GENERATION.md
+desktop.png
+
+# os
+.DS_Store
+Thumbs.db
