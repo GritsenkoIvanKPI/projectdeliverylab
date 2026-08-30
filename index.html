@@ -282,22 +282,28 @@ section{position:relative}
 .shot-pill span{font-size:14px;color:var(--ink);line-height:1.3}
 
 /* ============================================================
-   TOOLS STRIP
+   TOOLS STRIP — static row on desktop, marquee ticker on mobile
    ============================================================ */
 .tools{padding:var(--s-8) 0 var(--s-7)}
 .tools-title{text-align:center;font-family:var(--font-display);text-transform:uppercase;
   font-size:clamp(19px,1.8vw,26px);color:var(--ink);letter-spacing:.01em;margin-bottom:var(--s-6)}
-.tools-row{display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);flex-wrap:wrap}
+
+.tools-row{overflow:hidden;padding:6px 0}
+.tools-track{display:flex}
+.tools-set{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--s-4);flex:1 0 100%;
+}
+.tools-set--dup{display:none}
+
 .tool{
   display:flex;align-items:center;gap:12px;
   font-family:var(--font-display);text-transform:uppercase;font-size:25px;
-  color:var(--ink-3);letter-spacing:.01em;
+  color:var(--ink-3);letter-spacing:.01em;white-space:nowrap;
   transition:color .35s var(--ease),transform .35s var(--ease);
 }
+.tool svg{width:24px;height:24px;flex:none;display:block;fill:currentColor}
 .tool:hover{color:var(--ink);transform:translateY(-2px)}
-.tool:hover svg{color:var(--blue)}
-.tool svg{color:var(--ink-3);transition:color .35s var(--ease)}
-.tool svg{width:25px;height:25px;flex:none;display:block}
 
 /* ============================================================
    PROBLEM → SOLUTION
@@ -591,12 +597,21 @@ section{position:relative}
 .price--dark .price-note{color:rgba(255,255,255,.55)}
 
 /* ============================================================
-   AUTHOR — photo left, one readable column right
+   AUTHOR — three blocks placed by grid areas, so mobile can reorder
+   them (head -> photo -> copy) without duplicating markup
    ============================================================ */
 .author{
-  display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1fr);
-  gap:var(--s-7);align-items:center;
+  display:grid;
+  grid-template-columns:minmax(0,.78fr) minmax(0,1fr);
+  grid-template-areas:"photo head" "photo copy";
+  grid-template-rows:min-content min-content;
+  column-gap:var(--s-7);
+  align-content:center;
 }
+.author-head{grid-area:head}
+.author-photo{grid-area:photo;align-self:center}
+.author-copy{grid-area:copy}
+
 .author-photo{
   position:relative;border-radius:20px;overflow:hidden;
   aspect-ratio:4/5;background:var(--blue-5);box-shadow:var(--sh-3);
@@ -607,7 +622,7 @@ section{position:relative}
   background:linear-gradient(200deg,rgba(61,59,255,.10),rgba(255,100,36,.06));
   mix-blend-mode:multiply;
 }
-.author-body h2{margin:22px 0 0}
+.author-head h2{margin:22px 0 0}
 .author-role{
   margin:16px 0 0;font-size:clamp(14px,1.2vw,17px);color:var(--blue);
   display:flex;flex-wrap:wrap;align-items:center;gap:10px;
@@ -615,6 +630,14 @@ section{position:relative}
 .author-role i{width:4px;height:4px;border-radius:50%;background:var(--blue-4);flex:none}
 .author-text{margin-top:26px;max-width:600px}
 .author-text p{color:var(--ink-2)}
+.author-text b{color:var(--ink);font-weight:600}
+/* highlighter-pen underline for the single strongest claim */
+.mark{
+  color:var(--ink);font-weight:600;
+  background-image:linear-gradient(transparent 60%,rgba(255,100,36,.26) 60%);
+  background-repeat:no-repeat;
+  padding:0 1px;
+}
 .author-stats{
   display:flex;flex-wrap:wrap;gap:var(--s-4) var(--s-6);
   margin:32px 0 0;padding-top:28px;border-top:1px solid var(--line);
@@ -826,6 +849,8 @@ section{position:relative}
   .reveal{opacity:1;transform:none}
   html{scroll-behavior:auto}
   .viz *,.viz *::after{animation:none!important;opacity:1!important;transform:none!important}
+  .tools-track{animation:none!important;transform:none!important}
+  .tools-row{overflow-x:auto}
   .vp-ticks i{opacity:1!important}
 }
 
@@ -842,8 +867,29 @@ section{position:relative}
   .pains{grid-template-columns:repeat(2,minmax(0,1fr))}
   .foot-top{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+@keyframes toolsTicker{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
 @media (max-width:960px){
   br.lg{display:none}
+  h5,.price h5{font-size:clamp(22px,6vw,26px)}
+  .mcol h5{margin-bottom:12px}
+  /* full-bleed ticker: break out of the container padding, fade both edges */
+  .tools-row{
+    margin-left:calc(var(--pad) * -1);
+    margin-right:calc(var(--pad) * -1);
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 11%,#000 89%,transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 11%,#000 89%,transparent 100%);
+  }
+  .tools-track{width:max-content;animation:toolsTicker 26s linear infinite}
+  .tools-row:hover .tools-track,
+  .tools-row:active .tools-track{animation-play-state:paused}
+  .tools-set{flex:none;gap:0;justify-content:flex-start}
+  .tools-set--dup{display:flex}
+  .tools-set .tool{padding:0 22px;font-size:23px}
+  .hero h1{font-size:clamp(25px,8.2vw,48px)}
   .nav-links,.nav-cta{display:none}
   .burger{display:flex}
   .mobile-menu{display:block}
@@ -853,13 +899,15 @@ section{position:relative}
   .hero-media,.hero-media .shot{min-height:0}
   .hero-media .shot{aspect-ratio:4/3}
   .tab-panel.is-active,.faq-grid,.form-grid{grid-template-columns:minmax(0,1fr);gap:var(--s-5)}
-  .author{grid-template-columns:minmax(0,1fr);gap:var(--s-5)}
-  .author-photo{aspect-ratio:4/3;max-height:460px}
+  .author{grid-template-columns:minmax(0,1fr);
+    grid-template-areas:"head" "photo" "copy";
+    grid-template-rows:auto auto auto;row-gap:var(--s-4)}
+  .author-photo{aspect-ratio:4/3;max-height:460px;align-self:auto}
   .author-photo img{object-position:46% 10%}
+  .author-copy .author-text{margin-top:0}
   .cards{grid-template-columns:minmax(0,1fr)}
   .tabs-bar{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
   .tab{padding-bottom:16px}
-  .tools-row{justify-content:center;gap:var(--s-4) var(--s-5)}
 }
 @media (max-width:760px){
   .case-view{padding:32px 26px 84px}
@@ -879,12 +927,19 @@ section{position:relative}
   .foot-bottom{font-size:13px}
 }
 @media (max-width:640px){
+  /* full-width CTAs on phones — width:100% keeps them inside the container
+     padding, so they stay flush with the surrounding content grid */
+  .btn{width:100%}
+  .hero-actions{gap:12px}
+  .btn--ghost{min-height:52px;border:1px solid var(--line);border-radius:var(--r-btn);padding:0 20px}
+  .btn--ghost:hover{background:rgba(61,59,255,.05);border-color:var(--blue)}
   .author-photo{aspect-ratio:1/1}
   .author-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-3)}
   .author-stats span{max-width:none}
   .badge-pill{align-items:flex-start;line-height:1.5;text-align:left;padding:10px 15px 10px 12px}
   .badge-pill::before{margin-top:5px}
   .card{padding:26px 22px 24px}
+  .price{padding:28px 22px 28px}
   .card .tile{width:56px;height:56px;border-radius:14px;margin-bottom:24px}
   .vt-caps{font-size:7px;letter-spacing:0}
   .viz{padding:14px}
@@ -1021,12 +1076,24 @@ section{position:relative}
   <div class="wrap">
     <p class="tools-title reveal">Інструменти, які ви <span class="accent">освоїте на практиці</span></p>
     <div class="tools-row reveal" style="--d:80ms">
-      <span class="tool"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M16 2l13 13-13 13L3 15z"/><path d="M16 9l6 6-6 6-6-6z"/></svg>Jira</span>
-      <span class="tool"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22c4-7 9-9 14-5l10 7"/><path d="M28 10c-4 7-9 9-14 5L4 8"/></svg>Confluence</span>
-      <span class="tool"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M4 7l6-3v24l-6-3z"/><path d="M10 4l7 3v18l-7 3z"/><path d="M17 7l7 4v10l-7 6z"/></svg>Miro</span>
-      <span class="tool"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M11 3v18M21 11v18M3 21h18M11 11h18"/></svg>Slack</span>
-      <span class="tool"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M4 7l19-3 6 4v17l-20 3-5-4z"/><path d="M11 11v10M11 11l9 10M20 10v10"/></svg>Notion</span>
-      <span class="tool"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><circle cx="21" cy="16" r="5"/><path d="M16 6h-5a5 5 0 000 10h5zM16 6h5a5 5 0 010 10h-5z"/><path d="M16 16h-5a5 5 0 000 10h5z"/><path d="M16 26h-5a5 5 0 105 5z"/></svg>Figma</span>
+      <div class="tools-track">
+        <div class="tools-set">
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/></svg>Jira</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M.87 18.257c-.248.382-.53.875-.763 1.245a.764.764 0 0 0 .255 1.04l4.965 3.054a.764.764 0 0 0 1.058-.26c.199-.332.454-.763.733-1.221 1.967-3.247 3.945-2.853 7.508-1.146l4.957 2.337a.764.764 0 0 0 1.028-.382l2.364-5.346a.764.764 0 0 0-.382-1 599.851 599.851 0 0 1-4.965-2.361C10.911 10.97 5.224 11.185.87 18.257zM23.131 5.743c.249-.405.531-.875.764-1.25a.764.764 0 0 0-.256-1.034L18.675.404a.764.764 0 0 0-1.058.26c-.195.335-.451.763-.734 1.225-1.966 3.246-3.945 2.85-7.508 1.146L4.437.694a.764.764 0 0 0-1.027.382L1.046 6.422a.764.764 0 0 0 .382 1c1.039.49 3.105 1.467 4.965 2.361 6.698 3.246 12.392 3.029 16.738-4.04z"/></svg>Confluence</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.392 0H13.9L17 4.808 10.444 0H6.949l3.102 6.3L3.494 0H0l3.05 8.131L0 24h3.494L10.05 6.985 6.949 24h3.494L17 5.494 13.899 24h3.493L24 3.672 17.392 0z"/></svg>Miro</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>Slack</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>Notion</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</span>
+        </div>
+        <div class="tools-set tools-set--dup" aria-hidden="true">
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/></svg>Jira</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M.87 18.257c-.248.382-.53.875-.763 1.245a.764.764 0 0 0 .255 1.04l4.965 3.054a.764.764 0 0 0 1.058-.26c.199-.332.454-.763.733-1.221 1.967-3.247 3.945-2.853 7.508-1.146l4.957 2.337a.764.764 0 0 0 1.028-.382l2.364-5.346a.764.764 0 0 0-.382-1 599.851 599.851 0 0 1-4.965-2.361C10.911 10.97 5.224 11.185.87 18.257zM23.131 5.743c.249-.405.531-.875.764-1.25a.764.764 0 0 0-.256-1.034L18.675.404a.764.764 0 0 0-1.058.26c-.195.335-.451.763-.734 1.225-1.966 3.246-3.945 2.85-7.508 1.146L4.437.694a.764.764 0 0 0-1.027.382L1.046 6.422a.764.764 0 0 0 .382 1c1.039.49 3.105 1.467 4.965 2.361 6.698 3.246 12.392 3.029 16.738-4.04z"/></svg>Confluence</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.392 0H13.9L17 4.808 10.444 0H6.949l3.102 6.3L3.494 0H0l3.05 8.131L0 24h3.494L10.05 6.985 6.949 24h3.494L17 5.494 13.899 24h3.493L24 3.672 17.392 0z"/></svg>Miro</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>Slack</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>Notion</span>
+          <span class="tool"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></svg>Figma</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1399,23 +1466,25 @@ section{position:relative}
 <section class="sec" id="author">
   <div class="wrap">
     <div class="author">
-      <div class="author-photo reveal">
-        <img src="assets/img/author-real.jpg" alt="Євген Хаснатінов — Senior Delivery Manager">
-      </div>
-
-      <div class="author-body">
+      <div class="author-head">
         <span class="eyebrow reveal"><img src="assets/mark-blue.png" alt="">Про автора</span>
         <h2 class="reveal" style="--d:70ms">Євген Хаснатінов</h2>
         <p class="author-role reveal" style="--d:110ms">
           Senior Delivery Manager <i></i> Head of Project Managers
         </p>
+      </div>
 
-        <div class="author-text reveal" style="--d:150ms">
-          <p>Понад 7 років будує процеси управління IT-командами. Керував кількома командами одночасно, координував роботу понад 20 спеціалістів і розвивав Project Managers у продуктових та сервісних компаніях.</p>
-          <p>Розробив власну модель управління delivery: вона робить роботу команди прозорою, допомагає знаходити bottlenecks і прогнозувати строки. Проводить співбесіди PM та менторить спеціалістів.</p>
+      <div class="author-photo reveal" style="--d:140ms">
+        <img src="assets/img/author-real.jpg" alt="Євген Хаснатінов — Senior Delivery Manager">
+      </div>
+
+      <div class="author-copy">
+        <div class="author-text reveal" style="--d:170ms">
+          <p>Понад 7 років будує <b>процеси управління IT-командами</b>. Керував кількома командами одночасно, координував роботу понад 20 спеціалістів і розвивав <b>Project Managers</b> у продуктових та сервісних компаніях.</p>
+          <p>Розробив <span class="mark">власну модель управління delivery</span>: вона робить роботу команди прозорою, допомагає знаходити <b>bottlenecks</b> і <b>прогнозувати строки</b>. Проводить <b>співбесіди PM</b> та менторить спеціалістів.</p>
         </div>
 
-        <ul class="author-stats reveal" style="--d:200ms">
+        <ul class="author-stats reveal" style="--d:210ms">
           <li><b>7+</b><span>років у delivery-менеджменті</span></li>
           <li><b>20+</b><span>спеціалістів у командах</span></li>
         </ul>
