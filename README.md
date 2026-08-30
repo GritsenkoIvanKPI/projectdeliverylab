@@ -15,12 +15,29 @@
 
 ```
 index.html          — уся сторінка
-assets/             — логотипи (витягнуті з brand/ у прозорі PNG)
+robots.txt          — індексація
+sitemap.xml         — карта сайту
+site.webmanifest    — PWA-маніфест та іконки
+assets/             — логотипи, фавікони, og-image
 assets/img/         — фотографії
 brand/              — вихідні брендові файли
 serve.mjs           — локальний сервер
 screenshot.mjs      — знімок сторінки через puppeteer
 ```
+
+## SEO
+
+- `<title>`, `description`, `canonical`, `robots`
+- Open Graph + Twitter Card, картинка `assets/og-image.jpg` (1200×630, зібрана
+  з логотипа й брендових кольорів)
+- Фавікони 16/32/180/192/512 + maskable, згенеровані з фірмового знака
+- JSON-LD: `EducationalOrganization`, `Person` (автор), `WebSite`,
+  `Course` (з переліком тарифів і цін), `FAQPage` (7 питань — може дати
+  розгорнутий сніпет у Google)
+- Ієрархія заголовків без пропусків: один `h1`, далі `h2` → `h3`
+- Орієнтири `header` / `nav` / `main` / `footer`, `aria-label` на секціях
+- Усі зображення мають `alt`, `width`/`height` (проти стрибків верстки),
+  `loading="lazy"` нижче першого екрана; `hero.jpg` — `preload` + `fetchpriority`
 
 ## Локальний запуск
 
@@ -46,6 +63,9 @@ DSF=1 node screenshot.mjs http://localhost:3000    # для дуже довги�
 
 ## Що треба доробити перед запуском
 
+- [ ] **Замінити домен.** Скрізь стоїть плейсхолдер `https://projectdeliverylab.com`
+      — у `canonical`, `og:url`, JSON-LD, `sitemap.xml` і `robots.txt`.
+      Знайти й замінити одним проходом.
 - [ ] **Форма нікуди не надсилає.** Валідація працює, але потрібен endpoint —
       CRM, Telegram-бот або поштовий сервіс. Місце позначене `TODO` у скрипті в `index.html`.
 - [ ] **Кейси учасників — placeholder.** Тексти й аватари вигадані.

@@ -3,12 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Delivery Lab — практичний курс IT Project Management</title>
-<meta name="description" content="Отримайте досвід Project Manager ще до першої роботи в IT. Симуляція реального проєкту: Jira, спринти, метрики, ризики, реліз. На виході — delivery-кейс у портфоліо та підготовка до співбесід.">
-<link rel="icon" type="image/png" href="assets/mark-blue.png">
+
+<!-- ЗАМІНИТИ https://projectdeliverylab.com НА РЕАЛЬНИЙ ДОМЕН ПЕРЕД ЗАПУСКОМ
+     (canonical, og:url, JSON-LD, sitemap.xml, robots.txt) -->
+
+<title>Курс IT Project Management — Project Delivery Lab</title>
+<meta name="description" content="Практичний курс IT Project Management: симуляція реального проєкту в Jira, delivery-кейс у портфоліо та підготовка до співбесід. Старт першого потоку.">
+<link rel="canonical" href="https://projectdeliverylab.com/">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="author" content="Євген Хаснатінов">
+<meta name="theme-color" content="#3D3BFF">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Project Delivery Lab">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:url" content="https://projectdeliverylab.com/">
+<meta property="og:title" content="Досвід PM — без досвіду в IT | Project Delivery Lab">
+<meta property="og:description" content="Симуляція реальної роботи Project Manager: Jira, спринти, метрики, ризики та реліз. На виході — delivery-кейс у портфоліо та підготовка до співбесід.">
+<meta property="og:image" content="https://projectdeliverylab.com/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Project Delivery Lab — практичний курс IT Project Management">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Досвід PM — без досвіду в IT | Project Delivery Lab">
+<meta name="twitter:description" content="Симуляція реальної роботи Project Manager: Jira, спринти, метрики, ризики та реліз. Delivery-кейс у портфоліо.">
+<meta name="twitter:image" content="https://projectdeliverylab.com/assets/og-image.jpg">
+<meta name="twitter:image:alt" content="Project Delivery Lab — практичний курс IT Project Management">
+
+<!-- Icons -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+<link rel="manifest" href="site.webmanifest">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/hero.jpg" fetchpriority="high">
 <style>
 /* ============================================================
    PROJECT DELIVERY LAB — design tokens
@@ -79,7 +115,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 ul{margin:0;padding:0;list-style:none}
 
 /* ---------- typography ---------- */
-h1,h2,h3,h4,h5{
+h1,h2,h3,.h4,.h5,.h6{
   font-family:var(--font-display);
   color:var(--ink);
   text-transform:uppercase;
@@ -92,8 +128,8 @@ h1,h2,h3,h4,h5{
 h1{font-size:clamp(40px,5.0vw,72px);line-height:1.02}
 h2{font-size:clamp(28px,3.9vw,56px);line-height:1.05}
 h3{font-size:clamp(24px,2.9vw,42px);line-height:1.07}
-h4{font-size:clamp(21px,2.25vw,32px);line-height:1.09}
-h5{font-size:clamp(18px,1.8vw,26px);line-height:1.14}
+.h4{font-size:clamp(26px,3.4vw,32px);line-height:1.09}
+.h5{font-size:clamp(22px,2.7vw,26px);line-height:1.14}
 .accent{color:var(--blue)}
 .accent-o{color:var(--orange)}
 p{margin:0 0 1.05em}
@@ -323,7 +359,7 @@ section{position:relative}
 .mcol:nth-child(3) .ico{background:var(--ink);box-shadow:0 8px 20px rgba(10,15,77,.2)}
 .mcol:nth-child(4) .ico{background:var(--blue-3);box-shadow:0 8px 20px rgba(110,140,255,.28)}
 .mcol .ico svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.mcol h5{margin-bottom:14px}
+.mcol .h5{margin-bottom:14px}
 .mcol p{font-size:15px;color:var(--ink-2);max-width:290px}
 
 .pains{
@@ -361,7 +397,7 @@ section{position:relative}
 .card:nth-child(2n) .tile{background:var(--blue)}
 .card:nth-child(4n) .tile{background:var(--ink)}
 .card .tile svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.card h5{margin-bottom:16px}
+.card .h5{margin-bottom:16px}
 .card p{font-size:15px;color:var(--ink-2);margin-bottom:24px}
 .card .btn{margin-top:auto}
 
@@ -542,7 +578,7 @@ section{position:relative}
 }
 .tab-stat b{display:block;font-family:var(--font-display);font-size:38px;line-height:1;color:var(--ink)}
 .tab-stat span{display:block;font-size:14px;color:var(--ink-3);margin-top:8px}
-.tab-body h4{margin-bottom:20px}
+.tab-body .h4{margin-bottom:20px}
 .tab-body>p{color:var(--ink-2);margin-bottom:30px;max-width:520px}
 .checks{display:grid;gap:14px;margin-bottom:34px}
 .checks li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--ink-2)}
@@ -571,7 +607,7 @@ section{position:relative}
   transition:transform .45s var(--ease),box-shadow .45s var(--ease);
 }
 .price:hover{transform:translateY(-5px);box-shadow:var(--sh-3)}
-.price h5{font-size:clamp(20px,1.7vw,26px);margin-bottom:6px}
+.price .h5{margin-bottom:6px}
 .price .who{font-size:14px;color:var(--ink-3);margin-bottom:34px}
 .price .amount{display:flex;align-items:flex-end;gap:8px;margin-bottom:26px;flex-wrap:wrap}
 .price .amount b{font-family:var(--font-display);font-size:clamp(30px,2.7vw,40px);line-height:.95;color:var(--ink);font-weight:700;white-space:nowrap}
@@ -581,7 +617,7 @@ section{position:relative}
 .price li{display:flex;gap:11px;font-size:14px;line-height:1.5;align-items:flex-start}
 .price li svg{width:17px;height:17px;flex:none;margin-top:2px;stroke:var(--blue);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .price--dark{background:var(--ink);border-color:var(--ink);box-shadow:0 20px 50px rgba(10,15,77,.22)}
-.price--dark h5{color:var(--orange)}
+.price--dark .h5{color:var(--orange)}
 .price--dark .who{color:rgba(255,255,255,.62)}
 .price--dark .amount b{color:#fff}
 .price--dark .amount i{color:rgba(255,255,255,.6)}
@@ -789,7 +825,7 @@ section{position:relative}
 .form-ok.is-on{display:block;animation:fadeUp .5s var(--ease) both}
 .form-ok .ok-ico{width:70px;height:70px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 22px}
 .form-ok .ok-ico svg{width:30px;height:30px;stroke:var(--blue);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.form-ok h5{margin-bottom:12px}
+.form-ok .h5{margin-bottom:12px}
 .form-ok p{font-size:15px;color:var(--ink-2)}
 
 /* ============================================================
@@ -799,7 +835,7 @@ section{position:relative}
 .foot-top{display:grid;grid-template-columns:minmax(0,1.25fr) repeat(3,minmax(0,.75fr));gap:var(--s-5);padding-bottom:var(--s-7)}
 .foot-brand img{height:44px;width:auto;margin-bottom:26px}
 .foot-brand p{font-size:15px;color:var(--ink-2);max-width:330px}
-.foot h6{font-family:var(--font-display);text-transform:uppercase;font-size:17px;color:var(--ink);margin:0 0 22px;letter-spacing:.02em;font-weight:600}
+.foot .h6{font-family:var(--font-display);text-transform:uppercase;font-size:17px;color:var(--ink);margin:0 0 22px;letter-spacing:.02em;font-weight:600}
 .foot-col ul{display:grid;gap:13px}
 .foot-col a{font-size:15px;color:var(--ink-2);transition:color .25s var(--ease),transform .25s var(--ease);display:inline-block}
 .foot-col a:hover{color:var(--blue);transform:translateX(3px)}
@@ -831,7 +867,7 @@ section{position:relative}
   box-shadow:0 30px 80px rgba(0,0,0,.35);
 }
 .modal.is-open .modal-box{transform:none}
-.modal-box h5{margin-bottom:14px}
+.modal-box .h5{margin-bottom:14px}
 .modal-box p{color:var(--ink-2);max-width:520px;margin:0 auto 30px}
 .modal-close{position:absolute;top:26px;right:26px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;transition:background-color .3s var(--ease),transform .3s var(--ease)}
 .modal-close:hover{background:rgba(255,255,255,.28);transform:rotate(90deg)}
@@ -874,8 +910,7 @@ section{position:relative}
 
 @media (max-width:960px){
   br.lg{display:none}
-  h5,.price h5{font-size:clamp(22px,6vw,26px)}
-  .mcol h5{margin-bottom:12px}
+  .mcol .h5{margin-bottom:12px}
   /* full-bleed ticker: break out of the container padding, fade both edges */
   .tools-row{
     margin-left:calc(var(--pad) * -1);
@@ -889,7 +924,12 @@ section{position:relative}
   .tools-set{flex:none;gap:0;justify-content:flex-start}
   .tools-set--dup{display:flex}
   .tools-set .tool{padding:0 22px;font-size:23px}
-  .hero h1{font-size:clamp(25px,8.2vw,48px)}
+  /* mobile type ladder — each vw factor meets its base clamp exactly at 960px,
+     so nothing jumps at the breakpoint, and h1 > h2 > h4 > h5 > body holds
+     down to 320px */
+  .hero h1{font-size:clamp(26px,9vw,48px)}
+  h2{font-size:clamp(26px,6.4vw,37px)}
+  .h4{font-size:clamp(24px,5.4vw,32px)}
   .nav-links,.nav-cta{display:none}
   .burger{display:flex}
   .mobile-menu{display:block}
@@ -976,7 +1016,7 @@ section{position:relative}
 <header class="nav" id="top">
   <div class="nav-in">
     <a class="brand" href="#top" aria-label="Project Delivery Lab — на початок">
-      <img src="assets/logo-blue.png" alt="Project Delivery Lab">
+      <img src="assets/logo-blue.png" alt="Project Delivery Lab" width="310" height="123" decoding="async">
     </a>
     <nav class="nav-links" aria-label="Головна навігація">
       <a href="#problem">Про курс</a>
@@ -1004,8 +1044,10 @@ section{position:relative}
   <a class="btn btn--orange" href="#zayavka">Залишити заявку</a>
 </div>
 
+<main id="content">
+
 <!-- ========================= HERO ========================= -->
-<section class="hero">
+<section class="hero" aria-label="Project Delivery Lab — практичний курс IT Project Management">
   <div class="panel">
     <div class="hero-panel">
       <div class="hero-grid">
@@ -1050,7 +1092,7 @@ section{position:relative}
 
         <div class="hero-media reveal" style="--d:120ms">
           <div class="shot">
-            <img src="assets/img/hero.jpg" alt="Project manager проводить планування спринту біля дошки задач">
+            <img src="assets/img/hero.jpg" alt="Project manager проводить планування спринту біля дошки задач" width="896" height="1200" fetchpriority="high" decoding="async">
             <div class="shot-tint" aria-hidden="true"></div>
             <div class="shot-fade" aria-hidden="true"></div>
             <button class="play" id="playBtn" aria-label="Дивитись презентацію курсу">
@@ -1058,9 +1100,9 @@ section{position:relative}
             </button>
             <div class="shot-pill">
               <div class="ava-row" aria-hidden="true">
-                <img src="assets/img/ava1.jpg" alt="">
-                <img src="assets/img/ava2.jpg" alt="">
-                <img src="assets/img/ava3.jpg" alt="">
+                <img src="assets/img/ava1.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
+                <img src="assets/img/ava2.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
+                <img src="assets/img/ava3.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
               </div>
               <span>Набір на перший потік відкрито</span>
             </div>
@@ -1072,7 +1114,7 @@ section{position:relative}
 </section>
 
 <!-- ========================= TOOLS ========================= -->
-<section class="tools">
+<section class="tools" aria-label="Інструменти курсу">
   <div class="wrap">
     <p class="tools-title reveal">Інструменти, які ви <span class="accent">освоїте на практиці</span></p>
     <div class="tools-row reveal" style="--d:80ms">
@@ -1099,10 +1141,10 @@ section{position:relative}
 </section>
 
 <!-- ========================= PROBLEM → SOLUTION ========================= -->
-<section class="sec" id="problem">
+<section class="sec" id="problem" aria-label="Знайомі ситуації">
   <div class="wrap">
     <div class="reveal">
-      <span class="eyebrow"><img src="assets/mark-blue.png" alt="">Знайомі ситуації</span>
+      <span class="eyebrow"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Знайомі ситуації</span>
     </div>
     <h2 class="mission-h reveal" style="--d:70ms">Хаос у задачах — це не про людей, <br class="lg">а про відсутність <span class="accent">системи</span></h2>
     <p class="mission-sub reveal" style="--d:130ms">Ви маєте теорію, але не маєте системи. Курс дає модель управління delivery — від задачі до релізу.</p>
@@ -1137,22 +1179,22 @@ section{position:relative}
     <div class="mission-grid">
       <div class="mcol reveal">
         <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h10"/><circle cx="18" cy="18" r="3"/></svg></div>
-        <h5>Система,<br>а не хаос</h5>
+        <h3 class="h5">Система,<br>а не хаос</h3>
         <p>Delivery Status Flow, DoR, DoD і чіткі правила переходів замість розмитих процесів.</p>
       </div>
       <div class="mcol reveal" style="--d:80ms">
         <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V9m5 10V5m5 14v-7m5 7V8"/><path d="M3 21h18"/></svg></div>
-        <h5>Прогноз<br>замість здогадок</h5>
+        <h3 class="h5">Прогноз<br>замість здогадок</h3>
         <p>Story Points, Velocity та Capacity дають реальні строки на основі історичних даних.</p>
       </div>
       <div class="mcol reveal" style="--d:160ms">
         <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 8.2-8 9-4.8-.8-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
-        <h5>Ризики<br>під контролем</h5>
+        <h3 class="h5">Ризики<br>під контролем</h3>
         <p>Risk Log, Change Log і робочий процес зі змінами у scope та залежностями.</p>
       </div>
       <div class="mcol reveal" style="--d:240ms">
         <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v13H4z"/><path d="M8 21h8M12 17v4"/><path d="M8 9l2.5 2.5L15 7"/></svg></div>
-        <h5>Кейс<br>для співбесіди</h5>
+        <h3 class="h5">Кейс<br>для співбесіди</h3>
         <p>Готовий Jira-проєкт і delivery-кейс, які можна чесно показати роботодавцю.</p>
       </div>
     </div>
@@ -1160,11 +1202,11 @@ section{position:relative}
 </section>
 
 <!-- ========================= WHAT YOU GET ========================= -->
-<section class="sec-sm" id="result">
+<section class="sec-sm" id="result" aria-label="Що ви отримаєте">
   <div class="panel">
     <div class="panel-in">
       <div class="head-center">
-        <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="">Що ви отримаєте</span>
+        <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Що ви отримаєте</span>
         <h2 class="reveal" style="--d:70ms">Практичний <span class="accent">результат</span>, а не сертифікат заради сертифіката</h2>
         <p class="lead reveal" style="--d:130ms">Після курсу у вас залишається готова система управління IT-проєктом і артефакти, які працюють у реальній роботі.</p>
       </div>
@@ -1172,7 +1214,7 @@ section{position:relative}
       <div class="cards">
         <article class="card reveal">
           <div class="tile"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M9 5v14M15 5v14"/></svg></div>
-          <h5>Власний Jira-проєкт</h5>
+          <h3 class="h5">Власний Jira-проєкт</h3>
           <p>Створені проєкти, налаштований workflow, дошки, компоненти, типи задач, dashboards і Release Notes.</p>
           <div class="viz" aria-hidden="true">
             <div class="viz-label"><span>Scrum board</span><span>Sprint 4</span></div>
@@ -1191,7 +1233,7 @@ section{position:relative}
 
         <article class="card reveal" style="--d:70ms">
           <div class="tile"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg></div>
-          <h5>Набір PM-документів</h5>
+          <h3 class="h5">Набір PM-документів</h3>
           <p>DoR, DoD, Risk Log, Change Log, Status Report, Release Notes, User Stories та Acceptance Criteria.</p>
           <div class="viz" aria-hidden="true">
             <div class="viz-label"><span>Артефакти PM</span><span>Готово</span></div>
@@ -1213,7 +1255,7 @@ section{position:relative}
 
         <article class="card reveal" style="--d:140ms">
           <div class="tile"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
-          <h5>Метрики Delivery</h5>
+          <h3 class="h5">Метрики Delivery</h3>
           <p>Velocity, Capacity, Blocked Time, Cycle Time, Lead Time і Throughput як система навігації PM.</p>
           <div class="viz" aria-hidden="true">
             <div class="viz-label"><span>Velocity, SP</span><span>10 спринтів</span></div>
@@ -1227,7 +1269,7 @@ section{position:relative}
 
         <article class="card reveal" style="--d:210ms">
           <div class="tile"><svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 12l8 4 8-4M4 17l8 4 8-4"/></svg></div>
-          <h5>Delivery-кейс у портфоліо</h5>
+          <h3 class="h5">Delivery-кейс у портфоліо</h3>
           <p>Повний цикл спринту — від грумінгу й оцінки до релізу та ретроспективи — оформлений як кейс.</p>
           <div class="viz" aria-hidden="true">
             <div class="viz-label"><span>Цикл спринту</span><span>13 кроків</span></div>
@@ -1247,7 +1289,7 @@ section{position:relative}
 
         <article class="card reveal" style="--d:280ms">
           <div class="tile"><svg viewBox="0 0 24 24"><path d="M8 10h8M8 14h5"/><path d="M21 12a8 8 0 01-8 8H7l-4 3v-4.6A8 8 0 013 12a8 8 0 018-8h2a8 8 0 018 8z"/></svg></div>
-          <h5>Підготовка до співбесід</h5>
+          <h3 class="h5">Підготовка до співбесід</h3>
           <p>50 практичних запитань за програмою курсу, розбір CV та два mock interview з експертом.</p>
           <div class="viz" aria-hidden="true">
             <div class="viz-label"><span>Mock interview</span><span>2 сесії</span></div>
@@ -1265,7 +1307,7 @@ section{position:relative}
 
         <article class="card reveal" style="--d:350ms">
           <div class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14.5L7 22l5-2.5L17 22l-1.5-7.5"/></svg></div>
-          <h5>Сертифікат про завершення</h5>
+          <h3 class="h5">Сертифікат про завершення</h3>
           <p>Підтвердження проходження практичної програми та фінальної delivery-симуляції.</p>
           <div class="viz" aria-hidden="true">
             <div class="viz-label"><span>Модулі курсу</span><span class="vp-badge">8 / 8</span></div>
@@ -1282,10 +1324,10 @@ section{position:relative}
 </section>
 
 <!-- ========================= CURRICULUM ========================= -->
-<section class="sec" id="program">
+<section class="sec" id="program" aria-label="Програма курсу">
   <div class="wrap">
     <div class="head-center">
-      <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="">Програма курсу</span>
+      <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Програма курсу</span>
       <h2 class="reveal" style="--d:70ms">Від основ IT-індустрії<br>до <span class="accent">фінальної симуляції</span></h2>
     </div>
 
@@ -1298,11 +1340,11 @@ section{position:relative}
 
     <div class="tab-panel is-active" id="tp1" role="tabpanel" aria-labelledby="tb1">
       <div class="tab-media">
-        <img src="assets/img/workshop.jpg" alt="Команда обговорює процес роботи над проєктом">
+        <img src="assets/img/workshop.jpg" alt="Команда обговорює процес роботи над проєктом" width="1200" height="896" loading="lazy" decoding="async">
         <div class="tab-stat"><b>0.1 — 0.4</b><span>чотири вступні модулі</span></div>
       </div>
       <div class="tab-body">
-        <h4>Course introducing</h4>
+        <h3 class="h4">Course introducing</h3>
         <p>Ви отримуєте цілісну картину IT-індустрії та розумієте, як насправді влаштована робота команди — до того, як почнете керувати процесом.</p>
         <ul class="checks">
           <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>IT Industry Basics: домени, види компаній, контракти, стейкхолдери, термінологія</li>
@@ -1319,11 +1361,11 @@ section{position:relative}
 
     <div class="tab-panel" id="tp2" role="tabpanel" aria-labelledby="tb2">
       <div class="tab-media">
-        <img src="assets/img/solution.jpg" alt="Дошка задач з налаштованим workflow">
+        <img src="assets/img/solution.jpg" alt="Дошка задач з налаштованим workflow" width="1200" height="896" loading="lazy" decoding="async">
         <div class="tab-stat"><b>1.0 — 2.0</b><span>три воркшопи в Jira</span></div>
       </div>
       <div class="tab-body">
-        <h4>Модель управління IT-командою</h4>
+        <h3 class="h4">Модель управління IT-командою</h3>
         <p>Ви будуєте власну модель управління: статуси, ролі, критерії готовності — і одразу впроваджуєте її в Jira на живих воркшопах.</p>
         <ul class="checks">
           <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Delivery Status Flow: ролі та правила переходів між статусами</li>
@@ -1340,11 +1382,11 @@ section{position:relative}
 
     <div class="tab-panel" id="tp3" role="tabpanel" aria-labelledby="tb3">
       <div class="tab-media">
-        <img src="assets/img/metrics.jpg" alt="Дашборд з метриками delivery">
+        <img src="assets/img/metrics.jpg" alt="Дашборд з метриками delivery" width="1200" height="896" loading="lazy" decoding="async">
         <div class="tab-stat"><b>3.0 — 5.0</b><span>метрики Scrum і Kanban</span></div>
       </div>
       <div class="tab-body">
-        <h4>Метрики Delivery, ризики та зміни</h4>
+        <h3 class="h4">Метрики Delivery, ризики та зміни</h3>
         <p>Метрики стають вашою системою навігації: ви бачите bottlenecks завчасно й пояснюєте бізнесу строки фактами, а не відчуттями.</p>
         <ul class="checks">
           <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Scrum: Velocity, Capacity, Blocked Time, forecast на основі метрик</li>
@@ -1361,11 +1403,11 @@ section{position:relative}
 
     <div class="tab-panel" id="tp4" role="tabpanel" aria-labelledby="tb4">
       <div class="tab-media">
-        <img src="assets/img/interview.jpg" alt="Онлайн-співбесіда з project manager">
+        <img src="assets/img/interview.jpg" alt="Онлайн-співбесіда з project manager" width="1200" height="896" loading="lazy" decoding="async">
         <div class="tab-stat"><b>6.0 — 8.0</b><span>2 mock interview</span></div>
       </div>
       <div class="tab-body">
-        <h4>Документація, реліз і вихід на ринок</h4>
+        <h3 class="h4">Документація, реліз і вихід на ринок</h3>
         <p>Фінальна delivery-симуляція проводить вас через повний цикл спринту, а модуль кар'єри готує до реальних співбесід.</p>
         <ul class="checks">
           <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>QA First approach, test reports, процес релізу задач, Blocked Time</li>
@@ -1383,10 +1425,10 @@ section{position:relative}
 </section>
 
 <!-- ========================= PRICING ========================= -->
-<section class="sec-sm" id="prices">
+<section class="sec-sm" id="prices" aria-label="Формати навчання">
   <div class="wrap">
     <div class="head-center">
-      <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="">Формати навчання</span>
+      <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Формати навчання</span>
       <h2 class="reveal" style="--d:70ms">Прозорі <span class="accent">тарифи</span> без прихованих умов</h2>
       <p class="lead reveal" style="--d:130ms">Почніть із Foundation — його вартість зараховується в оплату основного курсу в повному обсязі.</p>
       <div class="reveal" style="--d:190ms;margin-top:30px">
@@ -1396,7 +1438,7 @@ section{position:relative}
 
     <div class="prices">
       <article class="price reveal">
-        <h5>Foundation</h5>
+        <h3 class="h5">Foundation</h3>
         <div class="who">Перший крок у професію</div>
         <div class="amount"><b>1 990 ₴</b><i>разово</i></div>
         <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
@@ -1411,7 +1453,7 @@ section{position:relative}
       </article>
 
       <article class="price reveal" style="--d:70ms">
-        <h5>Core</h5>
+        <h3 class="h5">Core</h3>
         <div class="who">Повна delivery-програма</div>
         <div class="amount"><b>18 900 ₴</b><i>за курс</i></div>
         <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
@@ -1428,7 +1470,7 @@ section{position:relative}
 
       <article class="price price--dark reveal" style="--d:140ms">
         <span class="price-tag">Найпопулярніший</span>
-        <h5>Pro</h5>
+        <h3 class="h5">Pro</h3>
         <div class="who">З перевіркою та фідбеком</div>
         <div class="amount"><b>24 900 ₴</b><i>за курс</i></div>
         <a class="btn btn--orange" href="#zayavka">Обрати пакет</a>
@@ -1444,7 +1486,7 @@ section{position:relative}
       </article>
 
       <article class="price reveal" style="--d:210ms">
-        <h5>Career Ready</h5>
+        <h3 class="h5">Career Ready</h3>
         <div class="who">До результату на ринку</div>
         <div class="amount"><b>31 900 ₴</b><i>за курс</i></div>
         <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
@@ -1463,11 +1505,11 @@ section{position:relative}
 </section>
 
 <!-- ========================= AUTHOR ========================= -->
-<section class="sec" id="author">
+<section class="sec" id="author" aria-label="Про автора">
   <div class="wrap">
     <div class="author">
       <div class="author-head">
-        <span class="eyebrow reveal"><img src="assets/mark-blue.png" alt="">Про автора</span>
+        <span class="eyebrow reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Про автора</span>
         <h2 class="reveal" style="--d:70ms">Євген Хаснатінов</h2>
         <p class="author-role reveal" style="--d:110ms">
           Senior Delivery Manager <i></i> Head of Project Managers
@@ -1475,7 +1517,7 @@ section{position:relative}
       </div>
 
       <div class="author-photo reveal" style="--d:140ms">
-        <img src="assets/img/author-real.jpg" alt="Євген Хаснатінов — Senior Delivery Manager">
+        <img src="assets/img/author-real.jpg" alt="Євген Хаснатінов — Senior Delivery Manager" width="640" height="640" loading="lazy" decoding="async">
       </div>
 
       <div class="author-copy">
@@ -1504,11 +1546,11 @@ section{position:relative}
      УВАГА: відгуки нижче — placeholder-контент для першого запуску.
      Замініть на реальні відгуки учасників пілотного потоку.
 ================================================================= -->
-<section class="sec-sm" id="testimonials">
+<section class="sec-sm" id="testimonials" aria-label="Кейси учасників">
   <div class="panel">
     <div class="panel-in">
       <div class="head-center">
-        <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="">Кейси учасників</span>
+        <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Кейси учасників</span>
         <h2 class="reveal" style="--d:70ms">Учасники <span class="accent">пілотного потоку</span></h2>
         <p class="lead reveal" style="--d:130ms">Різний старт — QA, аналітика, підтримка, маркетинг. І те, що змінилося після курсу.</p>
       </div>
@@ -1521,7 +1563,7 @@ section{position:relative}
         <div class="case-view" aria-live="polite">
         <article class="case is-active" role="group" aria-roledescription="Кейс" aria-label="Кейс 1 з 5">
           <header class="case-head">
-            <img src="assets/img/ava1.jpg" alt="">
+            <img src="assets/img/ava1.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
             <div>
               <b>Олена Ковальчук</b>
               <span>QA Engineer → Project Coordinator</span>
@@ -1536,7 +1578,7 @@ section{position:relative}
 
         <article class="case" role="group" aria-roledescription="Кейс" aria-label="Кейс 2 з 5">
           <header class="case-head">
-            <img src="assets/img/ava2.jpg" alt="">
+            <img src="assets/img/ava2.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
             <div>
               <b>Андрій Мельник</b>
               <span>Junior Project Manager</span>
@@ -1551,7 +1593,7 @@ section{position:relative}
 
         <article class="case" role="group" aria-roledescription="Кейс" aria-label="Кейс 3 з 5">
           <header class="case-head">
-            <img src="assets/img/ava3.jpg" alt="">
+            <img src="assets/img/ava3.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
             <div>
               <b>Марія Гриценко</b>
               <span>Business Analyst → Project Manager</span>
@@ -1566,7 +1608,7 @@ section{position:relative}
 
         <article class="case" role="group" aria-roledescription="Кейс" aria-label="Кейс 4 з 5">
           <header class="case-head">
-            <img src="assets/img/ava4.jpg" alt="">
+            <img src="assets/img/ava4.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
             <div>
               <b>Дмитро Савченко</b>
               <span>Support Team Lead → Project Manager</span>
@@ -1581,7 +1623,7 @@ section{position:relative}
 
         <article class="case" role="group" aria-roledescription="Кейс" aria-label="Кейс 5 з 5">
           <header class="case-head">
-            <img src="assets/img/ava5.jpg" alt="">
+            <img src="assets/img/ava5.jpg" alt="" width="320" height="320" loading="lazy" decoding="async">
             <div>
               <b>Ірина Левченко</b>
               <span>Маркетинг → Project Coordinator</span>
@@ -1611,11 +1653,11 @@ section{position:relative}
 </section>
 
 <!-- ========================= FAQ ========================= -->
-<section class="sec" id="faq">
+<section class="sec" id="faq" aria-label="Питання та відповіді">
   <div class="wrap">
     <div class="faq-grid">
       <div class="faq-aside">
-        <span class="eyebrow reveal"><img src="assets/mark-blue.png" alt="">Питання та відповіді</span>
+        <span class="eyebrow reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Питання та відповіді</span>
         <h2 class="reveal" style="--d:70ms">Що <span class="accent">варто знати</span> перед стартом</h2>
         <p class="reveal" style="--d:130ms">Не знайшли відповідь? Залиште заявку — ми зв'яжемось і підкажемо, який формат підійде саме вам.</p>
         <div class="reveal" style="--d:190ms">
@@ -1681,12 +1723,12 @@ section{position:relative}
 </section>
 
 <!-- ========================= FORM ========================= -->
-<section class="sec-sm" id="zayavka">
+<section class="sec-sm" id="zayavka" aria-label="Заявка на курс">
   <div class="panel">
     <div class="form-panel">
       <div class="form-grid">
         <div class="form-aside">
-          <span class="eyebrow reveal"><img src="assets/mark-orange.png" alt="">Заявка на курс</span>
+          <span class="eyebrow reveal"><img src="assets/mark-orange.png" alt="" width="208" height="92" loading="lazy" decoding="async">Заявка на курс</span>
           <h2 class="reveal" style="--d:70ms">Заповніть форму — і ми <span class="accent">підберемо формат</span></h2>
           <p class="lead reveal" style="--d:130ms">Ми зв'яжемось із вами, розберемо ваш поточний рівень і підкажемо, з якого пакета краще стартувати.</p>
           <ul class="form-list reveal" style="--d:190ms">
@@ -1725,7 +1767,7 @@ section{position:relative}
 
           <div class="form-ok" id="formOk">
             <div class="ok-ico"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
-            <h5>Заявку надіслано</h5>
+            <h3 class="h5">Заявку надіслано</h3>
             <p>Дякуємо! Ми зв'яжемось із вами найближчим часом і відповімо на всі питання щодо курсу.</p>
           </div>
         </div>
@@ -1734,12 +1776,14 @@ section{position:relative}
   </div>
 </section>
 
+</main>
+
 <!-- ========================= FOOTER ========================= -->
 <footer class="foot" id="contacts">
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
-        <img src="assets/logo-blue.png" alt="Project Delivery Lab">
+        <img src="assets/logo-blue.png" alt="Project Delivery Lab" width="310" height="123" loading="lazy" decoding="async">
         <p>Практична симуляція роботи IT Project Manager: Jira, спринти, метрики, ризики, зміни та реліз.</p>
         <div class="soc">
           <a href="#" aria-label="Instagram">
@@ -1755,7 +1799,7 @@ section{position:relative}
       </div>
 
       <div class="foot-col">
-        <h6>Курс</h6>
+        <h2 class="h6">Курс</h2>
         <ul>
           <li><a href="#problem">Знайомі ситуації</a></li>
           <li><a href="#result">Що ви отримаєте</a></li>
@@ -1765,7 +1809,7 @@ section{position:relative}
       </div>
 
       <div class="foot-col">
-        <h6>Навігація</h6>
+        <h2 class="h6">Навігація</h2>
         <ul>
           <li><a href="#author">Про автора</a></li>
           <li><a href="#testimonials">Кейси учасників</a></li>
@@ -1775,7 +1819,7 @@ section{position:relative}
       </div>
 
       <div class="foot-col">
-        <h6>Контакти</h6>
+        <h2 class="h6">Контакти</h2>
         <ul>
           <li><a href="mailto:hello@projectdeliverylab.com">hello@projectdeliverylab.com <em class="tbd">(уточнюється)</em></a></li>
           <li><a href="tel:+380000000000">+380 __ ___ __ __ <em class="tbd">(уточнюється)</em></a></li>
@@ -1796,7 +1840,7 @@ section{position:relative}
 <div class="modal" id="videoModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <button class="modal-close" id="modalClose" aria-label="Закрити"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <div class="modal-box">
-    <h5 id="modalTitle">Відео-презентація курсу</h5>
+    <h2 class="h5" id="modalTitle">Відео-презентація курсу</h3>
     <p>Промо-відео Project Delivery Lab з'явиться найближчим часом. А поки — залиште заявку, і ми детально розповімо про програму.</p>
     <a class="btn btn--orange" href="#zayavka" id="modalCta">
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
@@ -1972,6 +2016,204 @@ section{position:relative}
     form.querySelector('.consent').classList.remove('is-invalid');
   });
 })();
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "EducationalOrganization",
+      "@id": "https://projectdeliverylab.com/#org",
+      "name": "Project Delivery Lab",
+      "url": "https://projectdeliverylab.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://projectdeliverylab.com/assets/logo-blue.png",
+        "width": 310,
+        "height": 123
+      },
+      "image": "https://projectdeliverylab.com/assets/og-image.jpg",
+      "description": "Практичний курс IT Project Management: симуляція реальної роботи PM з Jira, метриками, ризиками та релізом.",
+      "areaServed": "UA",
+      "knowsLanguage": [
+        "uk"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://projectdeliverylab.com/#author",
+      "name": "Євген Хаснатінов",
+      "jobTitle": "Senior Delivery Manager, Head of Project Managers",
+      "image": "https://projectdeliverylab.com/assets/img/author-real.jpg",
+      "description": "Понад 7 років будує процеси управління IT-командами, координував роботу понад 20 спеціалістів, розвивав Project Managers у продуктових і сервісних компаніях.",
+      "worksFor": {
+        "@id": "https://projectdeliverylab.com/#org"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://projectdeliverylab.com/#website",
+      "url": "https://projectdeliverylab.com/",
+      "name": "Project Delivery Lab",
+      "inLanguage": "uk",
+      "publisher": {
+        "@id": "https://projectdeliverylab.com/#org"
+      }
+    },
+    {
+      "@type": "Course",
+      "@id": "https://projectdeliverylab.com/#course",
+      "name": "Project Delivery Lab — курс IT Project Management",
+      "description": "Симуляція реальної роботи Project Manager: студент налаштовує Jira та workflow, готує й оцінює задачі, планує спринти, керує блокуваннями, ризиками та змінами, аналізує метрики delivery і організовує реліз.",
+      "url": "https://projectdeliverylab.com/",
+      "inLanguage": "uk",
+      "image": "https://projectdeliverylab.com/assets/og-image.jpg",
+      "provider": {
+        "@id": "https://projectdeliverylab.com/#org"
+      },
+      "educationalLevel": "Beginner to Intermediate",
+      "teaches": [
+        "IT Project Management",
+        "Jira",
+        "Scrum",
+        "Kanban",
+        "Story Points",
+        "Velocity",
+        "Capacity planning",
+        "Cycle Time",
+        "Lead Time",
+        "Throughput",
+        "Risk Log",
+        "Change Log",
+        "Release Notes",
+        "DoR",
+        "DoD",
+        "User Stories",
+        "Acceptance Criteria"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "IT Project Management"
+      },
+      "hasCourseInstance": [
+        {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "inLanguage": "uk",
+          "courseWorkload": "PT6H",
+          "instructor": {
+            "@id": "https://projectdeliverylab.com/#author"
+          }
+        }
+      ],
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Project Delivery Lab: Foundation",
+          "price": "1990",
+          "priceCurrency": "UAH",
+          "category": "Paid",
+          "availability": "https://schema.org/PreOrder",
+          "description": "Вступні модулі 0.1 — 0.4. Вартість зараховується в оплату основного курсу.",
+          "url": "https://projectdeliverylab.com/#prices"
+        },
+        {
+          "@type": "Offer",
+          "name": "Project Delivery Lab: Core",
+          "price": "18900",
+          "priceCurrency": "UAH",
+          "category": "Paid",
+          "availability": "https://schema.org/PreOrder",
+          "description": "Усі модулі 1.0 — 7.0, воркшопи в Jira, метрики, фінальна delivery-симуляція.",
+          "url": "https://projectdeliverylab.com/#prices"
+        },
+        {
+          "@type": "Offer",
+          "name": "Project Delivery Lab: Pro",
+          "price": "24900",
+          "priceCurrency": "UAH",
+          "category": "Paid",
+          "availability": "https://schema.org/PreOrder",
+          "description": "Усе з Core, перевірка домашніх завдань, фідбек експерта, модуль підготовки до співбесід, сертифікат.",
+          "url": "https://projectdeliverylab.com/#prices"
+        },
+        {
+          "@type": "Offer",
+          "name": "Project Delivery Lab: Career Ready",
+          "price": "31900",
+          "priceCurrency": "UAH",
+          "category": "Paid",
+          "availability": "https://schema.org/PreOrder",
+          "description": "Усе з Pro, 2 mock interview, розбір CV, супровід у підготовці до співбесід.",
+          "url": "https://projectdeliverylab.com/#prices"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://projectdeliverylab.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Чи підійде курс, якщо я не працюю в IT?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Так. Вступні модулі 0.1 — 0.4 дають базу: домени, види компаній і контрактів, стейкхолдери, SDLC, ролі та артефакти. Далі ви одразу переходите до практики, тому технічний бекграунд не потрібен."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чим це відрізняється від інших курсів PM?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Це не курс про професію, а симуляція реальної роботи. Ви налаштовуєте Jira, готуєте й оцінюєте задачі, плануєте спринти, керуєте блокуваннями, ризиками та змінами, аналізуєте метрики й організовуєте реліз."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Я вже працюю Junior PM. Чи буде мені корисно?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Так — курс закриває саме ті прогалини, які найчастіше бувають у Junior PM: системне розуміння delivery, оцінка у Story Points, Capacity, метрики Scrum і Kanban, робота з Risk Log і Change Log."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Який формат занять?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Модулі поєднуються з практичними воркшопами: створення проєктів у Jira, налаштування workflow, Poker Planning, dashboards, Release Notes. Завершується все фінальною delivery-симуляцією з 13 кроків."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чи отримаю я щось для портфоліо?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Так: налаштований Jira-проєкт, workflow, dashboards, Risk Log, Change Log, Release Notes, test reports, DoR, DoD, User Stories та Acceptance Criteria — і фінальний delivery-кейс."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Як працює зарахування вартості Foundation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ви можете почати з Foundation за 1 990 ₴. Якщо переходите на основний курс, уся сплачена сума зараховується в оплату обраного пакета в повному обсязі."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чи допомагаєте з підготовкою до співбесід?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Модуль 8.0 включає 50 практичних питань за програмою курсу, аналіз CV, упаковку досвіду та два mock interview з експертом. У пакеті Career Ready додається супровід."
+          }
+        }
+      ]
+    }
+  ]
+}
 </script>
 </body>
 </html>
