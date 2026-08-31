@@ -793,7 +793,7 @@ section{position:relative}
 }
 .form-grid{position:relative;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:var(--s-8);align-items:center}
 .form-aside .eyebrow{color:#fff}
-.form-aside h2{color:#fff;margin:24px 0 24px}
+.form-aside h2{color:#fff;margin:24px 0 24px;font-size:clamp(26px,3.6vw,52px)}
 .form-aside h2 .accent{color:var(--orange)}
 .form-aside p{color:rgba(255,255,255,.72);max-width:440px}
 .form-list{margin-top:38px;display:grid;gap:16px}
@@ -934,7 +934,7 @@ section{position:relative}
      so nothing jumps at the breakpoint, and h1 > h2 > h4 > h5 > body holds
      down to 320px */
   .hero h1{font-size:clamp(26px,9vw,48px)}
-  h2{font-size:clamp(26px,7.6vw,37px)}
+  h2,.form-aside h2{font-size:clamp(26px,7.6vw,37px)}
   .h4{font-size:clamp(24px,5.4vw,32px)}
   .mcol .h5{font-size:clamp(25px,7vw,34px)}
   .nav-links,.nav-cta{display:none}
@@ -1740,8 +1740,8 @@ section{position:relative}
       <div class="form-grid">
         <div class="form-aside">
           <span class="eyebrow reveal"><img src="assets/mark-orange.png" alt="" width="208" height="92" loading="lazy" decoding="async">Заявка на курс</span>
-          <h2 class="reveal" style="--d:70ms">Заповніть форму — і ми <span class="accent">підберемо формат</span></h2>
-          <p class="lead reveal" style="--d:130ms">Ми зв'яжемось із вами, розберемо ваш поточний рівень і підкажемо, з якого пакета краще стартувати.</p>
+          <h2 class="reveal" style="--d:70ms">Підберемо формат<br><span class="accent">під ваш рівень</span></h2>
+          <p class="lead reveal" style="--d:130ms">Ми зв'яжемось із вами, розберемо ваш досвід і підкажемо, з якого пакета краще стартувати.</p>
           <ul class="form-list reveal" style="--d:190ms">
             <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Коротка консультація без тиску та продажу</li>
             <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Відповімо на питання про програму й формат</li>
