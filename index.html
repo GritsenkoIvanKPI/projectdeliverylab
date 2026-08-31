@@ -581,8 +581,15 @@ section{position:relative}
 .tab-body .h4{margin-bottom:20px}
 .tab-body>p{color:var(--ink-2);margin-bottom:30px;max-width:520px}
 .checks{display:grid;gap:14px;margin-bottom:34px}
-.checks li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--ink-2)}
-.checks svg{width:18px;height:18px;flex:none;margin-top:3px;stroke:var(--blue);fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.checks li{display:flex;gap:14px;align-items:flex-start;font-size:15px;color:var(--ink-2)}
+.mod{
+  flex:none;min-width:48px;padding:5px 9px;margin-top:1px;
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:7px;background:var(--blue-bg);color:var(--blue);
+  font-family:var(--font-display);font-weight:600;font-size:14px;
+  letter-spacing:.03em;line-height:1;
+}
+.mod--ws{background:rgba(255,100,36,.10);color:var(--orange)}
 
 /* ============================================================
    PRICING
@@ -609,9 +616,8 @@ section{position:relative}
 .price:hover{transform:translateY(-5px);box-shadow:var(--sh-3)}
 .price .h5{margin-bottom:6px}
 .price .who{font-size:14px;color:var(--ink-3);margin-bottom:34px}
-.price .amount{display:flex;align-items:flex-end;gap:8px;margin-bottom:26px;flex-wrap:wrap}
-.price .amount b{font-family:var(--font-display);font-size:clamp(30px,2.7vw,40px);line-height:.95;color:var(--ink);font-weight:700;white-space:nowrap}
-.price .amount i{font-style:normal;font-size:13px;color:var(--ink-3);padding-bottom:6px}
+.price .amount{margin-bottom:26px}
+.price .amount b{display:block;font-family:var(--font-display);font-size:clamp(44px,4vw,58px);line-height:.95;color:var(--ink);font-weight:700;white-space:nowrap}
 .price .rule{height:1px;background:var(--line);margin:28px 0 24px}
 .price ul{display:grid;gap:14px}
 .price li{display:flex;gap:11px;font-size:14px;line-height:1.5;align-items:flex-start}
@@ -620,7 +626,6 @@ section{position:relative}
 .price--dark .h5{color:var(--orange)}
 .price--dark .who{color:rgba(255,255,255,.62)}
 .price--dark .amount b{color:#fff}
-.price--dark .amount i{color:rgba(255,255,255,.6)}
 .price--dark .rule{background:rgba(255,255,255,.16)}
 .price--dark li{color:rgba(255,255,255,.9)}
 .price--dark li svg{stroke:var(--blue-4)}
@@ -944,6 +949,10 @@ section{position:relative}
   .author{grid-template-columns:minmax(0,1fr);
     grid-template-areas:"head" "photo" "copy";
     grid-template-rows:auto auto auto;row-gap:var(--s-4)}
+  /* the two roles wrap to separate lines here, so the separator dot
+     would just dangle at the end of the first one */
+  .author-role{flex-direction:column;align-items:flex-start;gap:4px}
+  .author-role i{display:none}
   .author-photo{aspect-ratio:4/3;max-height:460px;align-self:auto}
   .author-photo img{object-position:46% 10%}
   .author-copy .author-text{margin-top:0}
@@ -1349,10 +1358,10 @@ section{position:relative}
         <h3 class="h4">Course introducing</h3>
         <p>Ви отримуєте цілісну картину IT-індустрії та розумієте, як насправді влаштована робота команди — до того, як почнете керувати процесом.</p>
         <ul class="checks">
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>IT Industry Basics: домени, види компаній, контракти, стейкхолдери, термінологія</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>How IT Delivery Works: SDLC, ролі, артефакти, процеси</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>PM Role: процес, проєкт, продукт; обсяг, час, бюджет = якість</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Agile, Scrum і Kanban: коли що працює і чому</li>
+          <li><span class="mod">0.1</span>IT Industry Basics: домени, види компаній, контракти, стейкхолдери, термінологія</li>
+          <li><span class="mod">0.2</span>How IT Delivery Works: SDLC, ролі, артефакти, процеси</li>
+          <li><span class="mod">0.3</span>PM Role: процес, проєкт, продукт; обсяг, час, бюджет = якість</li>
+          <li><span class="mod">0.4</span>Agile, Scrum і Kanban: коли що працює і чому</li>
         </ul>
         <a class="btn btn--orange" href="#zayavka">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
@@ -1370,10 +1379,10 @@ section{position:relative}
         <h3 class="h4">Модель управління IT-командою</h3>
         <p>Ви будуєте власну модель управління: статуси, ролі, критерії готовності — і одразу впроваджуєте її в Jira на живих воркшопах.</p>
         <ul class="checks">
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Delivery Status Flow: ролі та правила переходів між статусами</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>DoR, DoD, User Stories та Acceptance Criteria</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Воркшоп: два проєкти в Jira на спільній Scrum-борді, компоненти й типи задач</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Грумінг, підготовка задачі до Ready for Development, Story Points, Poker Planning</li>
+          <li><span class="mod">1.0</span>Delivery Status Flow: ролі та правила переходів між статусами</li>
+          <li><span class="mod">1.0</span>DoR, DoD, User Stories та Acceptance Criteria</li>
+          <li><span class="mod mod--ws">WS</span>Воркшоп: два проєкти в Jira на спільній Scrum-борді, компоненти й типи задач</li>
+          <li><span class="mod">2.0</span>Грумінг, підготовка задачі до Ready for Development, Story Points, Poker Planning</li>
         </ul>
         <a class="btn btn--orange" href="#zayavka">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
@@ -1391,10 +1400,10 @@ section{position:relative}
         <h3 class="h4">Метрики Delivery, ризики та зміни</h3>
         <p>Метрики стають вашою системою навігації: ви бачите bottlenecks завчасно й пояснюєте бізнесу строки фактами, а не відчуттями.</p>
         <ul class="checks">
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Scrum: Velocity, Capacity, Blocked Time, forecast на основі метрик</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Kanban: Cycle Time, Lead Time, Throughput, пошук bottlenecks</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Воркшопи: dashboards у Jira, labels, плагіни Time in Status і Agile Cycle Time</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Risk Log, Change Log і як пояснити бізнесу затримку на проєкті</li>
+          <li><span class="mod">3.0</span>Scrum: Velocity, Capacity, Blocked Time, forecast на основі метрик</li>
+          <li><span class="mod">4.0</span>Kanban: Cycle Time, Lead Time, Throughput, пошук bottlenecks</li>
+          <li><span class="mod mod--ws">WS</span>Воркшопи: dashboards у Jira, labels, плагіни Time in Status і Agile Cycle Time</li>
+          <li><span class="mod">5.0</span>Risk Log, Change Log і як пояснити бізнесу затримку на проєкті</li>
         </ul>
         <a class="btn btn--orange" href="#zayavka">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
@@ -1412,10 +1421,10 @@ section{position:relative}
         <h3 class="h4">Документація, реліз і вихід на ринок</h3>
         <p>Фінальна delivery-симуляція проводить вас через повний цикл спринту, а модуль кар'єри готує до реальних співбесід.</p>
         <ul class="checks">
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>QA First approach, test reports, процес релізу задач, Blocked Time</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Воркшоп: налаштування Release Notes у Jira</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Final Delivery Simulation: 13 кроків від задачі до ретроспективи</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>50 питань до співбесіди, аналіз CV, 2 mock interview та супровід</li>
+          <li><span class="mod">6.0</span>QA First approach, test reports, процес релізу задач, Blocked Time</li>
+          <li><span class="mod mod--ws">WS</span>Воркшоп: налаштування Release Notes у Jira</li>
+          <li><span class="mod">7.0</span>Final Delivery Simulation: 13 кроків від задачі до ретроспективи</li>
+          <li><span class="mod">8.0</span>50 питань до співбесіди, аналіз CV, 2 mock interview та супровід</li>
         </ul>
         <a class="btn btn--orange" href="#zayavka">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
@@ -1442,7 +1451,7 @@ section{position:relative}
       <article class="price reveal">
         <h3 class="h5">Foundation</h3>
         <div class="who">Перший крок у професію</div>
-        <div class="amount"><b>1 990 ₴</b><i>разово</i></div>
+        <div class="amount"><b>1 990 ₴</b></div>
         <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
         <div class="rule"></div>
         <ul>
@@ -1457,7 +1466,7 @@ section{position:relative}
       <article class="price reveal" style="--d:70ms">
         <h3 class="h5">Core</h3>
         <div class="who">Повна delivery-програма</div>
-        <div class="amount"><b>18 900 ₴</b><i>за курс</i></div>
+        <div class="amount"><b>18 900 ₴</b></div>
         <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
         <div class="rule"></div>
         <ul>
@@ -1474,7 +1483,7 @@ section{position:relative}
         <span class="price-tag">Найпопулярніший</span>
         <h3 class="h5">Pro</h3>
         <div class="who">З перевіркою та фідбеком</div>
-        <div class="amount"><b>24 900 ₴</b><i>за курс</i></div>
+        <div class="amount"><b>24 900 ₴</b></div>
         <a class="btn btn--orange" href="#zayavka">Обрати пакет</a>
         <div class="rule"></div>
         <ul>
@@ -1490,7 +1499,7 @@ section{position:relative}
       <article class="price reveal" style="--d:210ms">
         <h3 class="h5">Career Ready</h3>
         <div class="who">До результату на ринку</div>
-        <div class="amount"><b>31 900 ₴</b><i>за курс</i></div>
+        <div class="amount"><b>31 900 ₴</b></div>
         <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
         <div class="rule"></div>
         <ul>
@@ -1514,7 +1523,7 @@ section{position:relative}
         <span class="eyebrow reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Про автора</span>
         <h2 class="reveal" style="--d:70ms">Євген Хаснатінов</h2>
         <p class="author-role reveal" style="--d:110ms">
-          Senior Delivery Manager <i></i> Head of Project Managers
+          <span>Senior Delivery Manager</span><i></i><span>Head of Project Managers</span>
         </p>
       </div>
 
