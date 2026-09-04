@@ -436,10 +436,16 @@ section{position:relative}
 .hpin-track{
   overflow-x:auto;overscroll-behavior-x:contain;
   scroll-snap-type:x mandatory;scrollbar-width:none;
-  padding-bottom:6px;margin-right:calc(var(--s-7) * -1);
+  padding-bottom:6px;
 }
 .hpin-track::-webkit-scrollbar{display:none}
-.hpin:not(.is-pinned) .card{scroll-snap-align:start}
+.hpin:not(.is-pinned) .hpin-track{
+  /* the side padding lets the first and last card reach the middle;
+     50% resolves against the track's own box, so the card lands centred */
+  --cw:min(clamp(320px,30vw,470px),100%);
+  padding-inline:calc(50% - var(--cw) / 2);
+}
+.hpin:not(.is-pinned) .card{flex:0 0 var(--cw);scroll-snap-align:center}
 .hpin:not(.is-pinned) .hpin-bar{display:none}
 .hpin:not(.is-pinned) .cards-nav{display:flex}
 
