@@ -500,6 +500,7 @@ section{position:relative}
    CARD VISUALS — minimal looping diagrams (transform/opacity only)
    ============================================================ */
 .viz{
+  container-type:inline-size;
   position:relative;min-height:130px;margin:0 0 28px;padding:16px;
   border-radius:12px;background:var(--page);border:1px solid var(--line-soft);
   overflow:hidden;display:flex;flex-direction:column;gap:12px;justify-content:center;
@@ -1006,6 +1007,15 @@ section{position:relative}
   .pains{grid-template-columns:repeat(2,minmax(0,1fr))}
   .foot-top{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+/* Short desktop viewports (720p) fall 22px short of holding the pinned stage.
+   Trim chrome rather than the card visuals, which clip if squeezed. */
+@media (min-width:961px) and (max-height:780px){
+  .hpin.is-pinned .head-center{margin-bottom:var(--s-2)}
+  .hpin.is-pinned .hpin-bar{margin-top:var(--s-2)}
+  .hpin.is-pinned .hpin-stage{padding-bottom:var(--s-2)}
+  .hpin.is-pinned .card{padding:24px 26px 20px}
+}
+
 @keyframes toolsTicker{
   from{transform:translateX(0)}
   to{transform:translateX(-50%)}
@@ -1070,9 +1080,9 @@ section{position:relative}
   .foot-col ul{gap:6px}
   .foot-col a{display:block;padding:7px 0}
 }
-/* Five captions cannot fit under the timeline on a small phone at the micro
-   step, so show only the range ends rather than shrinking below the scale. */
-@media (max-width:430px){
+/* Five captions only fit under the timeline once the card is wide enough;
+   below that show the range ends rather than shrinking below the type scale. */
+@container (max-width: 330px){
   .vt-caps{justify-content:space-between}
   .vt-caps span:not(:first-child):not(:last-child){display:none}
 }
@@ -2219,6 +2229,7 @@ section{position:relative}
   var hBar = document.getElementById('hBar');
   if (hpin && hTrack) {
     var travel = 0;                          /* px the row has to move */
+    var scrollLen = 0;                       /* px of page scroll it maps onto */
     var pinned = false;
     var mqPin = window.matchMedia('(min-width: 961px)');
 
@@ -2226,8 +2237,7 @@ section{position:relative}
       /* Pin only where the stage really fits. Rather than guess a viewport
          height, lay it out pinned and check whether the card is being
          squashed; if it is, fall back to the swipe track. */
-      pinned = mqPin.matches
-            && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      pinned = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       hpin.classList.toggle('is-pinned', pinned);
       if (pinned) {
         var probe = hTrack.querySelector('.card');
@@ -2245,9 +2255,12 @@ section{position:relative}
       hTrack.style.transform = '';
       var stage = hTrack.parentElement;       /* .hpin-stage, clips the row */
       travel = Math.max(0, hTrack.scrollWidth - stage.clientWidth + parseFloat(getComputedStyle(stage).paddingLeft));
-      /* the section is as tall as one screen plus the distance the row travels,
-         so one pixel of page scroll moves the row one pixel */
-      hpin.style.height = (stage.offsetHeight + travel) + 'px';
+      /* Normally one pixel of page scroll moves the row one pixel. Cap the
+         pinned run at 1.6 screens so a phone with six cards to cross does not
+         hold the page for three screen-heights; there the row simply moves
+         slightly faster than the scroll. */
+      scrollLen = Math.min(travel, window.innerHeight * 1.6);
+      hpin.style.height = (stage.offsetHeight + scrollLen) + 'px';
     };
 
     var ticking = false;
@@ -2255,7 +2268,7 @@ section{position:relative}
       ticking = false;
       if (!travel) return;
       var top = hpin.getBoundingClientRect().top;
-      var p = Math.min(1, Math.max(0, -top / travel));
+      var p = Math.min(1, Math.max(0, -top / scrollLen));
       hTrack.style.transform = 'translate3d(' + (-travel * p).toFixed(2) + 'px,0,0)';
       if (hBar) hBar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
     };
