@@ -115,7 +115,6 @@ body{
   line-height:1.6;
   font-weight:400;
   -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -410,7 +409,7 @@ section{position:relative}
    WHAT YOU GET — cards
    ============================================================ */
 .head-center{text-align:center;max-width:900px;margin:0 auto var(--s-7)}
-.cards-nav{display:flex;gap:12px;justify-content:center;margin-top:var(--s-4)}
+.cards-nav{display:none;gap:12px;justify-content:center;margin-top:var(--s-4)}
 .cards-btn{
   width:56px;height:56px;border-radius:50%;background:#fff;box-shadow:var(--sh-1);
   display:flex;align-items:center;justify-content:center;
@@ -425,40 +424,69 @@ section{position:relative}
 .head-center h2{text-wrap:balance}
 .head-center h2{margin:24px 0 0}
 .head-center p{margin-top:20px;color:var(--ink-2)}
-/* horizontal scroller: cards run off the right edge of the panel and are
-   dragged / arrowed through, and each slides in from the left as it enters */
-.cards{
-  display:flex;gap:var(--s-3);
+/* ============================================================
+   OUTCOME CARDS
+   Default is a swipe track. JS adds .is-pinned when the viewport is big
+   enough to hold the stage, and then the panel pins while the row travels.
+   ============================================================ */
+.hpin{position:relative}
+.hpin-track{display:flex;gap:var(--s-3)}
+
+/* --- swipe track (phones, short viewports, reduced motion) --- */
+.hpin-track{
   overflow-x:auto;overscroll-behavior-x:contain;
-  scroll-snap-type:x mandatory;scroll-padding-left:2px;
-  scrollbar-width:none;-ms-overflow-style:none;
-  padding:6px 2px 14px;
-  margin-right:calc(var(--s-7) * -1);
-  cursor:grab;
+  scroll-snap-type:x mandatory;scrollbar-width:none;
+  padding-bottom:6px;margin-right:calc(var(--s-7) * -1);
 }
-.cards::-webkit-scrollbar{display:none}
-.cards.is-dragging{cursor:grabbing;scroll-snap-type:none}
-.cards.is-dragging .card{pointer-events:none}
+.hpin-track::-webkit-scrollbar{display:none}
+.hpin:not(.is-pinned) .card{scroll-snap-align:start}
+.hpin:not(.is-pinned) .hpin-bar{display:none}
+.hpin:not(.is-pinned) .cards-nav{display:flex}
+
+/* --- pinned stage --- */
+.hpin.is-pinned{padding:0;overflow:visible}
+.hpin.is-pinned .hpin-stage{
+  position:sticky;top:0;height:100vh;
+  display:flex;flex-direction:column;
+  overflow:hidden;border-radius:inherit;
+  padding:96px 0 var(--s-3) var(--s-7);   /* clears the 96px sticky nav */
+}
+.hpin.is-pinned .head-center{flex:none;margin-bottom:var(--s-4)}
+.hpin.is-pinned .head-center .lead{display:none}   /* the heading carries it */
+.hpin.is-pinned .hpin-track{
+  flex:1 1 auto;min-height:0;width:max-content;
+  overflow:visible;margin-right:0;padding-bottom:0;
+  will-change:transform;
+}
+.hpin.is-pinned .card{min-height:0}
+.hpin.is-pinned .cards-nav{display:none}
+.hpin-bar{
+  flex:none;height:3px;border-radius:2px;background:rgba(61,59,255,.16);
+  margin:var(--s-3) var(--s-7) 0 0;overflow:hidden;
+}
+.hpin-bar i{
+  display:block;height:100%;border-radius:2px;background:var(--blue);
+  transform:scaleX(0);transform-origin:left;
+}
+
 .card{
-  flex:0 0 clamp(272px,25vw,340px);scroll-snap-align:start;
-  min-height:540px;
+  flex:0 0 clamp(320px,30vw,470px);
+  min-height:min(560px,52vh);
   background:#fff;border:1px solid rgba(255,255,255,.9);border-radius:20px;
-  padding:34px 32px 30px;display:flex;flex-direction:column;
+  padding:30px 30px 26px;display:flex;flex-direction:column;
   box-shadow:var(--sh-1);
-  transition:transform .45s var(--ease),box-shadow .45s var(--ease),opacity .6s var(--ease);
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease);
 }
 .card:hover{transform:translateY(-4px);box-shadow:var(--sh-3)}
-.cards .reveal{transform:translateX(-44px)}
-.cards .reveal.visible{transform:none}
 .card .tile{
-  width:66px;height:66px;border-radius:16px;background:var(--orange);
-  display:flex;align-items:center;justify-content:center;margin-bottom:34px;
+  width:60px;height:60px;border-radius:16px;background:var(--orange);
+  display:flex;align-items:center;justify-content:center;margin-bottom:26px;
 }
 .card:nth-child(2n) .tile{background:var(--blue)}
 .card:nth-child(4n) .tile{background:var(--blue-2)}
-.card .tile svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.card .h5{margin-bottom:16px}
-.card p{font-size:var(--fs-md);color:var(--ink-2);margin-bottom:24px}
+.card .tile svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.card .h5{margin-bottom:14px}
+.card p{font-size:var(--fs-md);color:var(--ink-2);margin-bottom:22px}
 .card .btn{margin-top:auto}
 
 
@@ -466,7 +494,7 @@ section{position:relative}
    CARD VISUALS — minimal looping diagrams (transform/opacity only)
    ============================================================ */
 .viz{
-  position:relative;min-height:150px;margin:0 0 28px;padding:16px;
+  position:relative;min-height:130px;margin:0 0 28px;padding:16px;
   border-radius:12px;background:var(--page);border:1px solid var(--line-soft);
   overflow:hidden;display:flex;flex-direction:column;gap:12px;justify-content:center;
 }
@@ -1275,14 +1303,15 @@ section{position:relative}
 <!-- ========================= WHAT YOU GET ========================= -->
 <section class="sec-sm" id="result" aria-label="Що ви отримаєте">
   <div class="panel">
-    <div class="panel-in">
-      <div class="head-center">
+    <div class="panel-in hpin" id="hpin">
+      <div class="hpin-stage">
+        <div class="head-center">
         <span class="eyebrow eyebrow--center reveal">Що ви отримаєте</span>
         <h2 class="reveal" style="--d:70ms">Практичний <span class="accent">результат</span>, а не сертифікат заради сертифіката</h2>
         <p class="lead reveal" style="--d:130ms">Після курсу у вас залишається готова система управління IT-проєктом і артефакти, які працюють у реальній роботі.</p>
       </div>
 
-      <div class="cards">
+        <div class="cards hpin-track" id="hTrack">
         <article class="card reveal">
           <div class="tile"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M9 5v14M15 5v14"/></svg></div>
           <h3 class="h5">Власний Jira-проєкт</h3>
@@ -1389,15 +1418,18 @@ section{position:relative}
             Дізнатись більше
           </a>
         </article>
-      </div>
+        </div>
 
-      <div class="cards-nav reveal">
-        <button class="cards-btn" id="cardsPrev" aria-label="Попередні картки">
-          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
-        </button>
-        <button class="cards-btn" id="cardsNext" aria-label="Наступні картки">
-          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-        </button>
+        <div class="hpin-bar" aria-hidden="true"><i id="hBar"></i></div>
+
+        <div class="cards-nav">
+          <button class="cards-btn" id="cardsPrev" aria-label="Попередні картки">
+            <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="cards-btn" id="cardsNext" aria-label="Наступні картки">
+            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -2175,47 +2207,76 @@ section{position:relative}
   burger.addEventListener('click', function(){ toggleMenu(!menu.classList.contains('is-open')); });
   menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') toggleMenu(false); });
 
-  /* ---------- outcome cards: horizontal scroller ---------- */
-  var cardsTrack = document.querySelector('.cards');
-  if (cardsTrack) {
+  /* ---------- outcome cards: the panel pins, the row travels sideways ---------- */
+  var hpin = document.getElementById('hpin');
+  var hTrack = document.getElementById('hTrack');
+  var hBar = document.getElementById('hBar');
+  if (hpin && hTrack) {
+    var travel = 0;                          /* px the row has to move */
+    var pinned = false;
+    var mqPin = window.matchMedia('(min-width: 961px)');
+
+    var measure = function(){
+      /* Pin only where the stage really fits. Rather than guess a viewport
+         height, lay it out pinned and check whether the card is being
+         squashed; if it is, fall back to the swipe track. */
+      pinned = mqPin.matches
+            && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      hpin.classList.toggle('is-pinned', pinned);
+      if (pinned) {
+        var probe = hTrack.querySelector('.card');
+        if (probe && probe.scrollHeight > probe.clientHeight + 2) {
+          pinned = false;
+          hpin.classList.remove('is-pinned');
+        }
+      }
+      if (!pinned) {
+        hpin.style.height = '';
+        hTrack.style.transform = '';
+        travel = 0;
+        return;
+      }
+      hTrack.style.transform = '';
+      var stage = hTrack.parentElement;       /* .hpin-stage, clips the row */
+      travel = Math.max(0, hTrack.scrollWidth - stage.clientWidth + parseFloat(getComputedStyle(stage).paddingLeft));
+      /* the section is as tall as one screen plus the distance the row travels,
+         so one pixel of page scroll moves the row one pixel */
+      hpin.style.height = (stage.offsetHeight + travel) + 'px';
+    };
+
+    var ticking = false;
+    var update = function(){
+      ticking = false;
+      if (!travel) return;
+      var top = hpin.getBoundingClientRect().top;
+      var p = Math.min(1, Math.max(0, -top / travel));
+      hTrack.style.transform = 'translate3d(' + (-travel * p).toFixed(2) + 'px,0,0)';
+      if (hBar) hBar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    };
+    var onScroll = function(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    measure();
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function(){ measure(); update(); });
+    if (mqPin.addEventListener) mqPin.addEventListener('change', function(){ measure(); update(); });
+    window.addEventListener('load', function(){ measure(); update(); });
+
+    /* arrows drive the native scroll on the phone fallback */
     var cardStep = function(){
-      var c = cardsTrack.querySelector('.card');
+      var c = hTrack.querySelector('.card');
       return c ? c.getBoundingClientRect().width + 24 : 320;
     };
-    var cardsPrev = document.getElementById('cardsPrev');
-    var cardsNext = document.getElementById('cardsNext');
-    var syncCardsNav = function(){
-      var max = cardsTrack.scrollWidth - cardsTrack.clientWidth;
-      cardsPrev.disabled = cardsTrack.scrollLeft < 4;
-      cardsNext.disabled = cardsTrack.scrollLeft > max - 4;
-    };
-    cardsPrev.addEventListener('click', function(){ cardsTrack.scrollBy({ left: -cardStep(), behavior: 'smooth' }); });
-    cardsNext.addEventListener('click', function(){ cardsTrack.scrollBy({ left: cardStep(), behavior: 'smooth' }); });
-    cardsTrack.addEventListener('scroll', syncCardsNav, { passive: true });
-    window.addEventListener('resize', syncCardsNav);
-    syncCardsNav();
-
-    /* drag to scroll with a pointer */
-    var down = false, startX = 0, startScroll = 0, moved = 0;
-    cardsTrack.addEventListener('pointerdown', function(e){
-      if (e.pointerType === 'touch') return;      /* let touch scroll natively */
-      down = true; moved = 0;
-      startX = e.clientX; startScroll = cardsTrack.scrollLeft;
-      cardsTrack.setPointerCapture(e.pointerId);
-    });
-    cardsTrack.addEventListener('pointermove', function(e){
-      if (!down) return;
-      var dx = e.clientX - startX;
-      if (Math.abs(dx) > 4 && !moved) { moved = 1; cardsTrack.classList.add('is-dragging'); }
-      if (moved) cardsTrack.scrollLeft = startScroll - dx;
-    });
-    var endDrag = function(){
-      if (!down) return;
-      down = false;
-      cardsTrack.classList.remove('is-dragging');
-    };
-    cardsTrack.addEventListener('pointerup', endDrag);
-    cardsTrack.addEventListener('pointercancel', endDrag);
+    var prev = document.getElementById('cardsPrev');
+    var next = document.getElementById('cardsNext');
+    if (prev && next) {
+      prev.addEventListener('click', function(){ hTrack.scrollBy({ left: -cardStep(), behavior: 'smooth' }); });
+      next.addEventListener('click', function(){ hTrack.scrollBy({ left: cardStep(), behavior: 'smooth' }); });
+    }
   }
 
   /* ---------- curriculum: one module open at a time ---------- */
