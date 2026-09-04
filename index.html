@@ -169,7 +169,11 @@ section{position:relative}
   text-transform:uppercase;color:var(--ink);
   line-height:1;
 }
-.eyebrow img{width:16px;height:auto;flex:none}
+.eyebrow::before{
+  content:'';flex:none;
+  width:10px;height:10px;border-radius:3px;
+  background:var(--blue);
+}
 .eyebrow--center{justify-content:center}
 
 /* ---------- buttons ---------- */
@@ -279,12 +283,12 @@ section{position:relative}
 .hero-copy{padding-top:8px;max-width:660px}
 .hero h1{margin-bottom:26px}
 .hero h1 .l2{display:block;color:var(--blue)}
-.hero-sub{max-width:470px;color:var(--ink-2);margin-bottom:34px}
+.hero-sub{max-width:470px;color:var(--ink-2);margin-bottom:34px;font-size:var(--fs-md)}
 .hero-actions{display:flex;align-items:center;gap:var(--s-3);flex-wrap:wrap}
 
 .hero-proof{display:flex;gap:52px;margin-top:96px;flex-wrap:wrap}
 .proof-num{font-family:var(--font-display);font-size:clamp(32px,3vw,44px);line-height:1;color:var(--ink);letter-spacing:-.01em}
-.proof-cap{font-size:var(--fs-sm);color:var(--ink-3);margin-top:8px;letter-spacing:.01em}
+.proof-cap{font-size:var(--fs-md);color:var(--ink-3);margin-top:8px;letter-spacing:.01em}
 .stars{display:flex;gap:3px;margin-top:9px}
 .stars svg{width:13px;height:13px;fill:var(--orange)}
 
@@ -364,7 +368,7 @@ section{position:relative}
   box-shadow:var(--sh-blue);
 }
 .mcol:nth-child(2) .ico{background:var(--orange);box-shadow:var(--sh-orange)}
-.mcol:nth-child(3) .ico{background:var(--ink);box-shadow:0 8px 20px rgba(10,15,77,.2)}
+.mcol:nth-child(3) .ico{background:var(--blue-2);box-shadow:0 8px 20px rgba(77,90,255,.28)}
 .mcol:nth-child(4) .ico{background:var(--blue-3);box-shadow:0 8px 20px rgba(110,140,255,.28)}
 .mcol .ico svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .mcol .h5{font-size:clamp(28px,2.36vw,34px);margin-bottom:14px}
@@ -381,29 +385,77 @@ section{position:relative}
   transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .3s var(--ease);
 }
 .pain:hover{transform:translateY(-3px);box-shadow:var(--sh-2);border-color:var(--blue-5)}
-.pain svg{width:20px;height:20px;flex:none;margin-top:2px;stroke:var(--orange);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pain-ico{
+  flex:none;width:38px;height:38px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .4s var(--ease);
+}
+.pain:hover .pain-ico{transform:scale(1.06)}
+.pain-ico svg{width:19px;height:19px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* each pain gets its own icon and badge tint, alternating warm and cool */
+.pain:nth-child(1) .pain-ico{background:rgba(255,100,36,.10)}
+.pain:nth-child(1) .pain-ico svg{stroke:var(--orange)}
+.pain:nth-child(2) .pain-ico{background:var(--blue-bg)}
+.pain:nth-child(2) .pain-ico svg{stroke:var(--blue)}
+.pain:nth-child(3) .pain-ico{background:rgba(240,135,92,.16)}
+.pain:nth-child(3) .pain-ico svg{stroke:var(--orange-warm)}
+.pain:nth-child(4) .pain-ico{background:rgba(110,140,255,.16)}
+.pain:nth-child(4) .pain-ico svg{stroke:var(--blue-3)}
+.pain:nth-child(5) .pain-ico{background:var(--beige)}
+.pain:nth-child(5) .pain-ico svg{stroke:var(--orange)}
+.pain:nth-child(6) .pain-ico{background:rgba(77,90,255,.13)}
+.pain:nth-child(6) .pain-ico svg{stroke:var(--blue-2)}
 
 /* ============================================================
    WHAT YOU GET — cards
    ============================================================ */
 .head-center{text-align:center;max-width:900px;margin:0 auto var(--s-7)}
+.cards-nav{display:flex;gap:12px;justify-content:center;margin-top:var(--s-4)}
+.cards-btn{
+  width:56px;height:56px;border-radius:50%;background:#fff;box-shadow:var(--sh-1);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),background-color .25s var(--ease);
+}
+.cards-btn svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cards-btn:hover{background:var(--blue);transform:translateY(-2px);box-shadow:var(--sh-2)}
+.cards-btn:hover svg{stroke:#fff}
+.cards-btn:active{transform:translateY(0) scale(.97)}
+.cards-btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.cards-btn[disabled]{opacity:.35;pointer-events:none}
 .head-center h2{text-wrap:balance}
 .head-center h2{margin:24px 0 0}
 .head-center p{margin-top:20px;color:var(--ink-2)}
-.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-3)}
+/* horizontal scroller: cards run off the right edge of the panel and are
+   dragged / arrowed through, and each slides in from the left as it enters */
+.cards{
+  display:flex;gap:var(--s-3);
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;scroll-padding-left:2px;
+  scrollbar-width:none;-ms-overflow-style:none;
+  padding:6px 2px 14px;
+  margin-right:calc(var(--s-7) * -1);
+  cursor:grab;
+}
+.cards::-webkit-scrollbar{display:none}
+.cards.is-dragging{cursor:grabbing;scroll-snap-type:none}
+.cards.is-dragging .card{pointer-events:none}
 .card{
+  flex:0 0 clamp(272px,25vw,340px);scroll-snap-align:start;
+  min-height:540px;
   background:#fff;border:1px solid rgba(255,255,255,.9);border-radius:20px;
-  padding:38px 38px 32px;display:flex;flex-direction:column;
+  padding:34px 32px 30px;display:flex;flex-direction:column;
   box-shadow:var(--sh-1);
-  transition:transform .45s var(--ease),box-shadow .45s var(--ease);
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease),opacity .6s var(--ease);
 }
 .card:hover{transform:translateY(-4px);box-shadow:var(--sh-3)}
+.cards .reveal{transform:translateX(-44px)}
+.cards .reveal.visible{transform:none}
 .card .tile{
   width:66px;height:66px;border-radius:16px;background:var(--orange);
   display:flex;align-items:center;justify-content:center;margin-bottom:34px;
 }
 .card:nth-child(2n) .tile{background:var(--blue)}
-.card:nth-child(4n) .tile{background:var(--ink)}
+.card:nth-child(4n) .tile{background:var(--blue-2)}
 .card .tile svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .card .h5{margin-bottom:16px}
 .card p{font-size:var(--fs-md);color:var(--ink-2);margin-bottom:24px}
@@ -414,7 +466,7 @@ section{position:relative}
    CARD VISUALS — minimal looping diagrams (transform/opacity only)
    ============================================================ */
 .viz{
-  position:relative;min-height:126px;margin:0 0 28px;padding:16px;
+  position:relative;min-height:150px;margin:0 0 28px;padding:16px;
   border-radius:12px;background:var(--page);border:1px solid var(--line-soft);
   overflow:hidden;display:flex;flex-direction:column;gap:12px;justify-content:center;
 }
@@ -639,20 +691,20 @@ section{position:relative}
 .price ul{display:grid;gap:14px}
 .price li{display:flex;gap:11px;font-size:var(--fs-sm);line-height:1.5;align-items:flex-start}
 .price li svg{width:17px;height:17px;flex:none;margin-top:2px;stroke:var(--blue);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.price--dark{background:var(--ink);border-color:var(--ink);box-shadow:0 20px 50px rgba(10,15,77,.22)}
-.price--dark .h5{color:var(--orange)}
-.price--dark .who{color:rgba(255,255,255,.62)}
+.price--dark{background:var(--blue);border-color:var(--blue);box-shadow:0 20px 50px rgba(61,59,255,.30)}
+.price--dark .h5{color:#fff}
+.price--dark .who{color:rgba(255,255,255,.72)}
 .price--dark .amount b{color:#fff}
-.price--dark .rule{background:rgba(255,255,255,.16)}
+.price--dark .rule{background:rgba(255,255,255,.22)}
 .price--dark li{color:rgba(255,255,255,.9)}
-.price--dark li svg{stroke:var(--blue-4)}
+.price--dark li svg{stroke:rgba(255,255,255,.9)}
 .price-tag{
   position:absolute;top:-13px;right:24px;background:var(--orange);color:#fff;
   font-size:var(--fs-xs);letter-spacing:.09em;text-transform:uppercase;
   padding:7px 14px;border-radius:999px;box-shadow:var(--sh-orange);
 }
 .price-note{margin-top:auto;padding-top:22px;font-size:var(--fs-sm);color:var(--ink-3)}
-.price--dark .price-note{color:rgba(255,255,255,.55)}
+.price--dark .price-note{color:rgba(255,255,255,.65)}
 
 /* ============================================================
    AUTHOR — three blocks placed by grid areas, so mobile can reorder
@@ -689,13 +741,6 @@ section{position:relative}
 .author-text{margin-top:26px;max-width:600px}
 .author-text p{color:var(--ink-2)}
 .author-text b{color:var(--ink);font-weight:600}
-/* highlighter-pen underline for the single strongest claim */
-.mark{
-  color:var(--ink);font-weight:600;
-  background-image:linear-gradient(transparent 60%,rgba(255,100,36,.26) 60%);
-  background-repeat:no-repeat;
-  padding:0 1px;
-}
 .author-stats{
   display:flex;flex-wrap:wrap;gap:var(--s-4) var(--s-6);
   margin:32px 0 0;padding-top:28px;border-top:1px solid var(--line);
@@ -799,23 +844,24 @@ section{position:relative}
    FORM
    ============================================================ */
 .form-panel{
-  background:var(--ink);border-radius:var(--r-panel);padding:var(--s-8) var(--s-7);
+  background:var(--blue);border-radius:var(--r-panel);padding:var(--s-8) var(--s-7);
   position:relative;overflow:hidden;
 }
 .form-panel::before{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:
-    radial-gradient(620px 420px at 6% 0%, rgba(61,59,255,.55), transparent 60%),
-    radial-gradient(560px 420px at 98% 100%, rgba(255,100,36,.28), transparent 58%);
+    radial-gradient(620px 420px at 6% 0%, rgba(148,172,255,.42), transparent 62%),
+    radial-gradient(560px 420px at 98% 100%, rgba(255,100,36,.34), transparent 58%);
 }
 .form-grid{position:relative;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:var(--s-8);align-items:center}
 .form-aside .eyebrow{color:#fff}
+.form-aside .eyebrow::before{background:#fff}
 .form-aside h2{color:#fff;margin:24px 0 24px;font-size:clamp(26px,3.6vw,52px)}
-.form-aside h2 .accent{color:var(--orange)}
+.form-aside h2 .accent{color:var(--orange-soft)}
 .form-aside p{color:rgba(255,255,255,.72);max-width:440px}
 .form-list{margin-top:38px;display:grid;gap:16px}
 .form-list li{display:flex;gap:12px;align-items:flex-start;font-size:var(--fs-md);color:rgba(255,255,255,.86)}
-.form-list svg{width:18px;height:18px;flex:none;margin-top:3px;stroke:var(--orange);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.form-list svg{width:18px;height:18px;flex:none;margin-top:3px;stroke:var(--beige);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
 .form-card{background:#fff;border-radius:20px;padding:40px;box-shadow:0 24px 60px rgba(0,0,0,.28)}
 .f-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
@@ -879,7 +925,7 @@ section{position:relative}
    ============================================================ */
 .modal{
   position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;
-  padding:var(--pad);background:rgba(10,15,77,.72);backdrop-filter:blur(6px);
+  padding:var(--pad);background:rgba(61,59,255,.55);backdrop-filter:blur(8px);
   opacity:0;pointer-events:none;transition:opacity .35s var(--ease);
 }
 .modal.is-open{opacity:1;pointer-events:auto}
@@ -973,7 +1019,6 @@ section{position:relative}
   .author-photo{aspect-ratio:4/3;max-height:460px;align-self:auto}
   .author-photo img{object-position:46% 10%}
   .author-copy .author-text{margin-top:0}
-  .cards{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:760px){
   .case-view{padding:32px 26px 84px}
@@ -1170,34 +1215,34 @@ section{position:relative}
 <section class="sec" id="problem" aria-label="Знайомі ситуації">
   <div class="wrap">
     <div class="reveal">
-      <span class="eyebrow"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Знайомі ситуації</span>
+      <span class="eyebrow">Знайомі ситуації</span>
     </div>
     <h2 class="mission-h reveal" style="--d:70ms">Хаос у задачах — це не про людей, <br class="lg">а про відсутність <span class="accent">системи</span></h2>
     <p class="mission-sub reveal" style="--d:130ms">Ви маєте теорію, але не маєте системи. Курс дає модель управління delivery — від задачі до релізу.</p>
 
     <ul class="pains">
       <li class="pain reveal">
-        <svg viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9L2.6 17.1c-.7 1.2.2 2.7 1.6 2.7h15.6c1.4 0 2.3-1.5 1.6-2.7L13.7 3.9c-.7-1.2-2.5-1.2-3.4 0z"/></svg>
+        <span class="pain-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="m4 4 5 5"/></svg></span>
         Хаос у задачах, нечіткі ролі та постійні блокування
       </li>
       <li class="pain reveal" style="--d:60ms">
-        <svg viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9L2.6 17.1c-.7 1.2.2 2.7 1.6 2.7h15.6c1.4 0 2.3-1.5 1.6-2.7L13.7 3.9c-.7-1.2-2.5-1.2-3.4 0z"/></svg>
+        <span class="pain-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
         Немає навички прогнозувати строки та планувати capacity
       </li>
       <li class="pain reveal" style="--d:120ms">
-        <svg viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9L2.6 17.1c-.7 1.2.2 2.7 1.6 2.7h15.6c1.4 0 2.3-1.5 1.6-2.7L13.7 3.9c-.7-1.2-2.5-1.2-3.4 0z"/></svg>
+        <span class="pain-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></span>
         Складно пояснити бізнесу затримку через метрики, а не емоції
       </li>
       <li class="pain reveal" style="--d:180ms">
-        <svg viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9L2.6 17.1c-.7 1.2.2 2.7 1.6 2.7h15.6c1.4 0 2.3-1.5 1.6-2.7L13.7 3.9c-.7-1.2-2.5-1.2-3.4 0z"/></svg>
+        <span class="pain-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8h10m-10 0 3-3M7 8l3 3"/><path d="M17 16H7m10 0-3-3m3 3-3 3"/></svg></span>
         Ви відчуваєте себе посередником, а не власником процесу
       </li>
       <li class="pain reveal" style="--d:240ms">
-        <svg viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9L2.6 17.1c-.7 1.2.2 2.7 1.6 2.7h15.6c1.4 0 2.3-1.5 1.6-2.7L13.7 3.9c-.7-1.2-2.5-1.2-3.4 0z"/></svg>
+        <span class="pain-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg></span>
         Немає портфоліо та реального delivery-кейсу для роботодавця
       </li>
       <li class="pain reveal" style="--d:300ms">
-        <svg viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.9L2.6 17.1c-.7 1.2.2 2.7 1.6 2.7h15.6c1.4 0 2.3-1.5 1.6-2.7L13.7 3.9c-.7-1.2-2.5-1.2-3.4 0z"/></svg>
+        <span class="pain-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-4.6A8 8 0 0 1 3 12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/><path d="M10.6 9.9a1.9 1.9 0 0 1 3.4 1.2c0 1.2-1.6 1.5-1.6 2.5"/><path d="M12 16.4h.01"/></svg></span>
         Страх практичних запитань на співбесіді
       </li>
     </ul>
@@ -1232,7 +1277,7 @@ section{position:relative}
   <div class="panel">
     <div class="panel-in">
       <div class="head-center">
-        <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Що ви отримаєте</span>
+        <span class="eyebrow eyebrow--center reveal">Що ви отримаєте</span>
         <h2 class="reveal" style="--d:70ms">Практичний <span class="accent">результат</span>, а не сертифікат заради сертифіката</h2>
         <p class="lead reveal" style="--d:130ms">Після курсу у вас залишається готова система управління IT-проєктом і артефакти, які працюють у реальній роботі.</p>
       </div>
@@ -1345,6 +1390,15 @@ section{position:relative}
           </a>
         </article>
       </div>
+
+      <div class="cards-nav reveal">
+        <button class="cards-btn" id="cardsPrev" aria-label="Попередні картки">
+          <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="cards-btn" id="cardsNext" aria-label="Наступні картки">
+          <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -1353,7 +1407,7 @@ section{position:relative}
 <section class="sec" id="program" aria-label="Програма курсу">
   <div class="wrap">
     <div class="head-center">
-      <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Програма курсу</span>
+      <span class="eyebrow eyebrow--center reveal">Програма курсу</span>
       <h2 class="reveal" style="--d:70ms">Від основ IT-індустрії<br>до <span class="accent">фінальної симуляції</span></h2>
       <p class="lead reveal" style="--d:130ms">12 модулів і 7 практичних воркшопів у Jira — від першого знайомства з IT-індустрією до фінальної симуляції спринту.</p>
     </div>
@@ -1652,7 +1706,7 @@ section{position:relative}
 <section class="sec-sm" id="prices" aria-label="Формати навчання">
   <div class="wrap">
     <div class="head-center">
-      <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Формати навчання</span>
+      <span class="eyebrow eyebrow--center reveal">Формати навчання</span>
       <h2 class="reveal" style="--d:70ms">Прозорі <span class="accent">тарифи</span> без прихованих умов</h2>
       <p class="lead reveal" style="--d:130ms">Почніть із Foundation — його вартість зараховується в оплату основного курсу в повному обсязі.</p>
       <div class="reveal" style="--d:190ms;margin-top:30px">
@@ -1733,7 +1787,7 @@ section{position:relative}
   <div class="wrap">
     <div class="author">
       <div class="author-head">
-        <span class="eyebrow reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Про автора</span>
+        <span class="eyebrow reveal">Про автора</span>
         <h2 class="reveal" style="--d:70ms">Євген Хаснатінов</h2>
         <p class="author-role reveal" style="--d:110ms">
           <span>Senior Delivery Manager</span><i></i><span>Head of Project Managers</span>
@@ -1747,7 +1801,7 @@ section{position:relative}
       <div class="author-copy">
         <div class="author-text reveal" style="--d:170ms">
           <p>Понад 7 років будує <b>процеси управління IT-командами</b>. Керував кількома командами одночасно, координував роботу понад 20 спеціалістів і розвивав <b>Project Managers</b> у продуктових та сервісних компаніях.</p>
-          <p>Розробив <span class="mark">власну модель управління delivery</span>: вона робить роботу команди прозорою, допомагає знаходити <b>bottlenecks</b> і <b>прогнозувати строки</b>. Проводить <b>співбесіди PM</b> та менторить спеціалістів.</p>
+          <p>Розробив <b>власну модель управління delivery</b>: вона робить роботу команди прозорою, допомагає знаходити <b>bottlenecks</b> і <b>прогнозувати строки</b>. Проводить <b>співбесіди PM</b> та менторить спеціалістів.</p>
         </div>
 
         <ul class="author-stats reveal" style="--d:210ms">
@@ -1774,7 +1828,7 @@ section{position:relative}
   <div class="panel">
     <div class="panel-in">
       <div class="head-center">
-        <span class="eyebrow eyebrow--center reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Кейси учасників</span>
+        <span class="eyebrow eyebrow--center reveal">Кейси учасників</span>
         <h2 class="reveal" style="--d:70ms">Учасники <span class="accent">пілотного потоку</span></h2>
         <p class="lead reveal" style="--d:130ms">Різний старт — QA, аналітика, підтримка, маркетинг. І те, що змінилося після курсу.</p>
       </div>
@@ -1881,7 +1935,7 @@ section{position:relative}
   <div class="wrap">
     <div class="faq-grid">
       <div class="faq-aside">
-        <span class="eyebrow reveal"><img src="assets/mark-blue.png" alt="" width="208" height="92" loading="lazy" decoding="async">Питання та відповіді</span>
+        <span class="eyebrow reveal">Питання та відповіді</span>
         <h2 class="reveal" style="--d:70ms">Що <span class="accent">варто знати</span> перед стартом</h2>
         <p class="reveal" style="--d:130ms">Не знайшли відповідь? Залиште заявку — ми зв'яжемось і підкажемо, який формат підійде саме вам.</p>
         <div class="reveal" style="--d:190ms">
@@ -1952,7 +2006,7 @@ section{position:relative}
     <div class="form-panel">
       <div class="form-grid">
         <div class="form-aside">
-          <span class="eyebrow reveal"><img src="assets/mark-orange.png" alt="" width="208" height="92" loading="lazy" decoding="async">Заявка на курс</span>
+          <span class="eyebrow reveal">Заявка на курс</span>
           <h2 class="reveal" style="--d:70ms">Підберемо формат<br><span class="accent">під ваш рівень</span></h2>
           <p class="lead reveal" style="--d:130ms">Ми зв'яжемось із вами, розберемо ваш досвід і підкажемо, з якого пакета краще стартувати.</p>
           <ul class="form-list reveal" style="--d:190ms">
@@ -2120,6 +2174,49 @@ section{position:relative}
   };
   burger.addEventListener('click', function(){ toggleMenu(!menu.classList.contains('is-open')); });
   menu.addEventListener('click', function(e){ if (e.target.tagName === 'A') toggleMenu(false); });
+
+  /* ---------- outcome cards: horizontal scroller ---------- */
+  var cardsTrack = document.querySelector('.cards');
+  if (cardsTrack) {
+    var cardStep = function(){
+      var c = cardsTrack.querySelector('.card');
+      return c ? c.getBoundingClientRect().width + 24 : 320;
+    };
+    var cardsPrev = document.getElementById('cardsPrev');
+    var cardsNext = document.getElementById('cardsNext');
+    var syncCardsNav = function(){
+      var max = cardsTrack.scrollWidth - cardsTrack.clientWidth;
+      cardsPrev.disabled = cardsTrack.scrollLeft < 4;
+      cardsNext.disabled = cardsTrack.scrollLeft > max - 4;
+    };
+    cardsPrev.addEventListener('click', function(){ cardsTrack.scrollBy({ left: -cardStep(), behavior: 'smooth' }); });
+    cardsNext.addEventListener('click', function(){ cardsTrack.scrollBy({ left: cardStep(), behavior: 'smooth' }); });
+    cardsTrack.addEventListener('scroll', syncCardsNav, { passive: true });
+    window.addEventListener('resize', syncCardsNav);
+    syncCardsNav();
+
+    /* drag to scroll with a pointer */
+    var down = false, startX = 0, startScroll = 0, moved = 0;
+    cardsTrack.addEventListener('pointerdown', function(e){
+      if (e.pointerType === 'touch') return;      /* let touch scroll natively */
+      down = true; moved = 0;
+      startX = e.clientX; startScroll = cardsTrack.scrollLeft;
+      cardsTrack.setPointerCapture(e.pointerId);
+    });
+    cardsTrack.addEventListener('pointermove', function(e){
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 4 && !moved) { moved = 1; cardsTrack.classList.add('is-dragging'); }
+      if (moved) cardsTrack.scrollLeft = startScroll - dx;
+    });
+    var endDrag = function(){
+      if (!down) return;
+      down = false;
+      cardsTrack.classList.remove('is-dragging');
+    };
+    cardsTrack.addEventListener('pointerup', endDrag);
+    cardsTrack.addEventListener('pointercancel', endDrag);
+  }
 
   /* ---------- curriculum: one module open at a time ---------- */
   var mrows = Array.prototype.slice.call(document.querySelectorAll('.mrow'));
