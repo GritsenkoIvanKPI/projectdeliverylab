@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ЗАМІНИТИ https://projectdeliverylab.com НА РЕАЛЬНИЙ ДОМЕН ПЕРЕД ЗАПУСКОМ
-     (canonical, og:url, JSON-LD, sitemap.xml, robots.txt) -->
 
 <title>Курс IT Project Management — Project Delivery Lab</title>
 <meta name="description" content="Практичний курс IT Project Management: симуляція реального проєкту в Jira, delivery-кейс у портфоліо та підготовка до співбесід. Старт першого потоку.">
@@ -917,11 +915,19 @@ section{position:relative}
 .err{display:none;font-size:var(--fs-xs);color:var(--orange);margin-top:7px}
 .field.has-error .err{display:block}
 .consent{display:flex;gap:11px;align-items:flex-start;font-size:var(--fs-sm);color:var(--ink-3);line-height:1.5;margin:6px 0 24px}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .consent input{width:17px;height:17px;flex:none;margin-top:2px;accent-color:var(--blue)}
 .consent{border-radius:8px;padding:6px;margin:0 -6px 18px;transition:background-color .3s var(--ease),color .3s var(--ease)}
 .consent.is-invalid{background:rgba(255,100,36,.09);color:var(--orange)}
 .consent.is-invalid input{outline:2px solid var(--orange);outline-offset:2px}
 .form-card .btn{width:100%}
+.form-card .btn[disabled]{opacity:.6;pointer-events:none}
+.form-fail{
+  display:none;margin:16px 0 0;padding:12px 14px;border-radius:var(--r-btn);
+  background:rgba(255,100,36,.09);border:1px solid rgba(255,100,36,.26);
+  color:var(--orange);font-size:var(--fs-sm);line-height:1.5;
+}
+.form-fail.is-on{display:block}
 .form-ok{
   display:none;text-align:center;padding:34px 10px;
 }
@@ -2080,15 +2086,24 @@ section{position:relative}
             </div>
 
 
+            <!-- пастка для ботів: людина її не бачить і не заповнює -->
+            <div class="trap" aria-hidden="true">
+              <label for="fWebsite">Website</label>
+              <input type="text" id="fWebsite" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" id="fSource" name="source" value="zayavka">
+
             <label class="consent" for="fAgree">
               <input type="checkbox" id="fAgree" name="agree">
               <span>Я погоджуюсь на обробку персональних даних для зв'язку щодо навчання.</span>
             </label>
 
-            <button class="btn btn--orange" type="submit">
+            <button class="btn btn--orange" type="submit" id="leadSubmit">
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
-              Надіслати заявку
+              <span id="leadSubmitText">Надіслати заявку</span>
             </button>
+
+            <p class="form-fail" id="formFail" role="alert"></p>
           </form>
 
           <div class="form-ok" id="formOk">
@@ -2377,9 +2392,41 @@ section{position:relative}
   /* ---------- lead form ---------- */
   var form = document.getElementById('leadForm');
   var ok = document.getElementById('formOk');
+  var fail = document.getElementById('formFail');
+  var submitBtn = document.getElementById('leadSubmit');
+  var submitText = document.getElementById('leadSubmitText');
+  var sourceField = document.getElementById('fSource');
+
   var setErr = function(el, bad){
     var f = el.closest('.field');
     if (f) f.classList.toggle('has-error', bad);
+  };
+
+  /* Remember which call to action brought the visitor to the form, so the
+     Telegram message says which block actually converts. */
+  document.querySelectorAll('a[href="#zayavka"]').forEach(function(link){
+    link.addEventListener('click', function(){
+      var origin = link.closest('section[id]');
+      var where = link.closest('.mobile-menu') ? 'menu'
+                : link.closest('.nav')         ? 'nav'
+                : link.closest('.modal')       ? 'modal'
+                : origin                       ? origin.id
+                : 'zayavka';
+      if (sourceField) sourceField.value = where;
+    });
+  });
+
+  var showFail = function(message){
+    if (!fail) return;
+    fail.textContent = message;
+    fail.classList.add('is-on');
+  };
+
+  var MESSAGES = {
+    validation_failed:   'Перевірте, будь ласка, заповнені поля.',
+    rate_limited:        'Ви вже надіслали кілька заявок. Спробуйте, будь ласка, за годину або напишіть нам у Telegram.',
+    server_not_configured:'Форма тимчасово не працює. Напишіть, будь ласка, у Telegram — ми відповімо.',
+    delivery_failed:     'Не вдалося надіслати заявку. Спробуйте ще раз або напишіть нам у Telegram.'
   };
 
   form.addEventListener('submit', function(e){
@@ -2401,9 +2448,49 @@ section{position:relative}
       return;
     }
 
-    /* TODO: підключити реальний endpoint / CRM / Telegram-бота */
-    form.style.display = 'none';
-    ok.classList.add('is-on');
+    if (fail) fail.classList.remove('is-on');
+    submitBtn.disabled = true;
+    var restore = submitText ? submitText.textContent : '';
+    if (submitText) submitText.textContent = 'Надсилаємо…';
+
+    fetch('send-form.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:    name.value.trim(),
+        phone:   phone.value.trim(),
+        agree:   agree.checked,
+        website: document.getElementById('fWebsite').value,
+        source:  sourceField ? sourceField.value : 'zayavka',
+        page:    location.pathname + location.search
+      })
+    })
+    .then(function(res){
+      return res.json().catch(function(){ return { ok: false, error: 'bad_response' }; });
+    })
+    .then(function(data){
+      if (data && data.ok) {
+        form.style.display = 'none';
+        ok.classList.add('is-on');
+        return;
+      }
+      /* Mark the fields the server rejected, in case it is stricter than
+         the checks above — a Telegram handle typed as plain text, say. */
+      if (data && data.fields) {
+        Object.keys(data.fields).forEach(function(key){
+          var el = form.querySelector('[name="' + key + '"]');
+          if (el) setErr(el, true);
+        });
+      }
+      showFail(MESSAGES[data && data.error] || MESSAGES.delivery_failed);
+    })
+    .catch(function(){
+      showFail('Немає звʼязку з сервером. Перевірте інтернет і спробуйте ще раз.');
+    })
+    .then(function(){
+      submitBtn.disabled = false;
+      if (submitText) submitText.textContent = restore;
+    });
   });
 
   form.querySelectorAll('.field input, .field select, .field textarea').forEach(function(el){

@@ -15,13 +15,16 @@
 
 ```
 index.html          — уся сторінка
+send-form.php       — приймає заявку й шле в Telegram
+config.example.php  — зразок конфігурації; справжній config.php живе на сервері
+.htaccess           — закриває config.php, стиснення й кеш
 robots.txt          — індексація
 sitemap.xml         — карта сайту
 site.webmanifest    — PWA-маніфест та іконки
 assets/             — логотипи, фавікони, og-image
 assets/img/         — фотографії
 brand/              — вихідні брендові файли
-serve.mjs           — локальний сервер
+serve.mjs           — локальний сервер (тільки статика, без PHP)
 screenshot.mjs      — знімок сторінки через puppeteer
 ```
 
@@ -59,15 +62,31 @@ DSF=1 node screenshot.mjs http://localhost:3000    # для дуже довги�
 ## Секції
 
 Навігація → Hero → Інструменти → Знайомі ситуації → Що ви отримаєте →
-Програма (таби) → Тарифи → Про автора → Кейси учасників → FAQ → Форма заявки → Футер
+Програма (список модулів) → Тарифи → Про автора → Кейси учасників → FAQ →
+Форма заявки → Футер
+
+## Заявки
+
+Форма шле дані на `send-form.php`, який пересилає їх у Telegram.
+Токен бота лежить у `config.php` — **тільки на сервері**, у git його немає.
+
+Повна інструкція: **[TELEGRAM_SETUP.md](TELEGRAM_SETUP.md)**.
+
+Коротко для деплою на Hostinger:
+
+1. Залити в `public_html`: `index.html`, `send-form.php`, `.htaccess`,
+   `robots.txt`, `sitemap.xml`, `site.webmanifest`, теку `assets/`.
+2. Створити там же `config.php` за зразком `config.example.php`
+   і вписати `bot_token` та `chat_id`.
+3. Перевірити `https://projectdeliverylab.com/send-form.php?selftest=1`.
+
+Потрібен PHP 7.4+ (краще 8.x). `node serve.mjs` PHP не виконує — форму
+локально перевіряють через `php:8.2-cli` у Docker, див. інструкцію.
 
 ## Що треба доробити перед запуском
 
-- [ ] **Замінити домен.** Скрізь стоїть плейсхолдер `https://projectdeliverylab.com`
-      — у `canonical`, `og:url`, JSON-LD, `sitemap.xml` і `robots.txt`.
-      Знайти й замінити одним проходом.
-- [ ] **Форма нікуди не надсилає.** Валідація працює, але потрібен endpoint —
-      CRM, Telegram-бот або поштовий сервіс. Місце позначене `TODO` у скрипті в `index.html`.
+- [ ] **Створити `config.php` на сервері** — без нього форма віддає
+      «Форма тимчасово не працює». Див. TELEGRAM_SETUP.md.
 - [ ] **Кейси учасників — placeholder.** Тексти й аватари вигадані.
       Замінити на реальні після першого потоку.
 - [ ] **Контакти у футері** — email, телефон, Telegram, Instagram, TikTok

@@ -16,3 +16,6 @@ desktop.png
 # os
 .DS_Store
 Thumbs.db
+
+# токен бота — тільки на сервері, ніколи в git
+/config.php
