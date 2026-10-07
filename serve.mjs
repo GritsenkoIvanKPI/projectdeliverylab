@@ -24,6 +24,8 @@ const MIME = {
   '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml; charset=utf-8',
   '.webmanifest': 'application/manifest+json; charset=utf-8',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
 };
 
 http.createServer((req, res) => {
@@ -33,14 +35,44 @@ http.createServer((req, res) => {
   const ext = path.extname(filePath).toLowerCase();
   const mime = MIME[ext] || 'application/octet-stream';
 
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
+  fs.stat(filePath, (err, stat) => {
+    if (err || !stat.isFile()) {
       res.writeHead(404, { 'Content-Type': 'text/plain' });
       res.end('Not found');
-    } else {
-      res.writeHead(200, { 'Content-Type': mime });
-      res.end(data);
+      return;
     }
+
+    // <video> asks for byte ranges; without this it cannot seek, and some
+    // browsers will not start playback at all. Apache does this on its own,
+    // so it only matters for local checks.
+    const range = req.headers.range;
+    if (range) {
+      const m = /bytes=(\d*)-(\d*)/.exec(range);
+      if (m) {
+        const start = m[1] ? parseInt(m[1], 10) : 0;
+        const end = m[2] ? parseInt(m[2], 10) : stat.size - 1;
+        if (start >= stat.size || end >= stat.size || start > end) {
+          res.writeHead(416, { 'Content-Range': `bytes */${stat.size}` });
+          res.end();
+          return;
+        }
+        res.writeHead(206, {
+          'Content-Type': mime,
+          'Content-Range': `bytes ${start}-${end}/${stat.size}`,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': end - start + 1,
+        });
+        fs.createReadStream(filePath, { start, end }).pipe(res);
+        return;
+      }
+    }
+
+    res.writeHead(200, {
+      'Content-Type': mime,
+      'Content-Length': stat.size,
+      'Accept-Ranges': 'bytes',
+    });
+    fs.createReadStream(filePath).pipe(res);
   });
 }).listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

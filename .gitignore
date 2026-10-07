@@ -25,3 +25,6 @@ Thumbs.db
 
 # скріншоти, що падають у теку з Telegram
 telegram-cloud-photo-*
+
+# вихідне відео від клієнта — у репозиторій іде стиснена копія в assets/video/
+/video.mp4
