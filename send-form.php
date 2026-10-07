@@ -113,7 +113,11 @@ function field(array $src, string $key, int $max): string
 }
 
 $name   = field($input, 'name', 120);
+$email  = field($input, 'email', 160);
 $phone  = field($input, 'phone', 80);
+$exp    = field($input, 'experience', 20);
+$years  = field($input, 'pm_years', 20);
+$goal   = field($input, 'goal', 20);
 $source = field($input, 'source', 20);
 $page   = field($input, 'page', 200);
 $trap   = field($input, 'website', 200); // пастка: людина її не бачить
@@ -148,8 +152,35 @@ if (!$isPhone && !$isHandle) {
     $errors['phone'] = 'invalid';
 }
 
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors['email'] = 'invalid';
+}
+
+// Варіанти анкети приймаємо лише зі списку — підставити довільний текст не вийде.
+$EXPERIENCE = [
+    'not_it'   => 'Не працює в IT',
+    'it_to_pm' => 'В IT, хоче перейти в PM',
+    'pm'       => 'Працює PM / Delivery Manager',
+];
+$PM_YEARS = [
+    'none'  => 'Немає досвіду',
+    'lt1'   => 'До 1 року',
+    '1_3'   => '1–3 роки',
+    '3plus' => '3+ роки',
+];
+$GOALS = [
+    'enter'     => 'Увійти в професію PM',
+    'switch'    => 'Перейти в PM з іншої IT-ролі',
+    'systemize' => 'Систематизувати та посилити навички',
+    'interview' => 'Підготуватися до пошуку роботи',
+];
+
+if (!isset($EXPERIENCE[$exp]))  { $errors['experience'] = 'required'; }
+if (!isset($PM_YEARS[$years]))  { $errors['pm_years']   = 'required'; }
+if (!isset($GOALS[$goal]))      { $errors['goal']       = 'required'; }
+
 // Захист від інʼєкції заголовків — ці значення потрапляють і в лист-копію.
-if (preg_match('/[\r\n]/', $name . $phone)) {
+if (preg_match('/[\r\n]/', $name . $phone . $email)) {
     $errors['name'] = 'invalid';
 }
 
@@ -220,8 +251,13 @@ $lines   = [];
 $lines[] = '<b>🎓 Нова заявка — Project Delivery Lab</b>';
 $lines[] = '';
 $lines[] = '<b>Імʼя:</b> ' . tg($name);
-// <code> у Telegram копіюється одним дотиком — зручно набирати номер
+// <code> у Telegram копіюється одним дотиком — зручно набирати номер чи пошту
+$lines[] = '<b>Email:</b> <code>' . tg($email) . '</code>';
 $lines[] = '<b>Контакт:</b> <code>' . tg($phone) . '</code>';
+$lines[] = '';
+$lines[] = '<b>Досвід:</b> ' . tg($EXPERIENCE[$exp]);
+$lines[] = '<b>Досвід у PM:</b> ' . tg($PM_YEARS[$years]);
+$lines[] = '<b>Ціль:</b> ' . tg($GOALS[$goal]);
 $lines[] = '';
 $lines[] = '<i>Звідки: ' . tg($sourceLabel) . '</i>';
 
@@ -329,7 +365,11 @@ if (!is_array($result) || empty($result['ok'])) {
 
 $notify = trim((string)($config['notify_email'] ?? ''));
 if ($notify !== '' && filter_var($notify, FILTER_VALIDATE_EMAIL)) {
-    $body = "Імʼя: $name\nКонтакт: $phone\nЗвідки: $sourceLabel\nСторінка: $page\n";
+    $body = "Імʼя: $name\nEmail: $email\nКонтакт: $phone\n"
+          . 'Досвід: ' . $EXPERIENCE[$exp] . "\n"
+          . 'Досвід у PM: ' . $PM_YEARS[$years] . "\n"
+          . 'Ціль: ' . $GOALS[$goal] . "\n"
+          . "Звідки: $sourceLabel\nСторінка: $page\n";
     @mail(
         $notify,
         'Нова заявка — Project Delivery Lab',

@@ -886,7 +886,7 @@ section{position:relative}
     radial-gradient(620px 420px at 6% 0%, rgba(148,172,255,.42), transparent 62%),
     radial-gradient(560px 420px at 98% 100%, rgba(255,100,36,.34), transparent 58%);
 }
-.form-grid{position:relative;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:var(--s-8);align-items:center}
+.form-grid{position:relative;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1fr);gap:var(--s-7);align-items:center}
 .form-aside .eyebrow{color:#fff}
 .form-aside .eyebrow::before{background:#fff}
 .form-aside h2{color:#fff;margin:24px 0 24px;font-size:clamp(26px,3.6vw,52px)}
@@ -896,7 +896,7 @@ section{position:relative}
 .form-list li{display:flex;gap:12px;align-items:flex-start;font-size:var(--fs-md);color:rgba(255,255,255,.86)}
 .form-list svg{width:18px;height:18px;flex:none;margin-top:3px;stroke:var(--beige);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
-.form-card{background:#fff;border-radius:20px;padding:40px;box-shadow:0 24px 60px rgba(0,0,0,.28)}
+.form-card{background:#fff;border-radius:20px;padding:36px;box-shadow:0 24px 60px rgba(0,0,0,.28)}
 .f-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .field{margin-bottom:18px}
 .field label{display:block;font-size:var(--fs-sm);color:var(--ink-3);margin-bottom:9px;letter-spacing:.02em}
@@ -913,6 +913,38 @@ section{position:relative}
 }
 .field.has-error input,.field.has-error select{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,100,36,.13)}
 .err{display:none;font-size:var(--fs-xs);color:var(--orange);margin-top:7px}
+.hint{display:block;font-size:var(--fs-xs);color:var(--ink-3);margin-top:7px;line-height:1.4}
+.field.has-error .hint{display:none}
+
+/* --- choice groups: radios drawn as chips --- */
+.qgroup{border:0;margin:0 0 20px;padding:0;min-width:0}
+.qgroup legend{
+  display:block;padding:0;margin-bottom:10px;
+  font-size:var(--fs-sm);color:var(--ink-3);letter-spacing:.02em;
+}
+.qopts{display:flex;flex-wrap:wrap;gap:8px}
+.qopt{display:inline-flex;margin:0}
+.qopt input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.qopt span{
+  display:inline-flex;align-items:center;
+  padding:10px 14px;border-radius:10px;cursor:pointer;
+  border:1px solid var(--line);background:var(--page);
+  font-size:var(--fs-sm);line-height:1.3;color:var(--ink-2);
+  transition:border-color .25s var(--ease),background-color .25s var(--ease),color .25s var(--ease);
+}
+.qopt span:hover{border-color:var(--blue-4)}
+.qopt input:checked + span{
+  border-color:var(--blue);background:rgba(61,59,255,.07);
+  color:var(--ink);font-weight:500;
+}
+.qopt input:focus-visible + span{outline:2px solid var(--blue);outline-offset:2px}
+.qgroup.has-error .qopt span{border-color:rgba(255,100,36,.5)}
+.qgroup.has-error .err{display:block}
+
+.qsection{
+  margin:26px 0 14px;padding-top:20px;border-top:1px solid var(--line-soft);
+  font-size:var(--fs-sm);color:var(--ink);font-weight:600;letter-spacing:.02em;
+}
 .field.has-error .err{display:block}
 .consent{display:flex;gap:11px;align-items:flex-start;font-size:var(--fs-sm);color:var(--ink-3);line-height:1.5;margin:6px 0 24px}
 .trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
@@ -2072,19 +2104,59 @@ section{position:relative}
 
         <div class="form-card reveal" style="--d:120ms">
           <form id="leadForm" novalidate>
+            <div class="field">
+              <label for="fName">Як до вас звертатися?</label>
+              <input type="text" id="fName" name="name" placeholder="Ім'я та прізвище" autocomplete="name">
+              <span class="err">Вкажіть, будь ласка, ваше ім'я</span>
+            </div>
+
+            <fieldset class="qgroup" id="qExperience">
+              <legend>Який у вас досвід?</legend>
+              <div class="qopts">
+                <label class="qopt"><input type="radio" name="experience" value="not_it"><span>Не працюю в IT</span></label>
+                <label class="qopt"><input type="radio" name="experience" value="it_to_pm"><span>Працюю в IT та хочу перейти в PM</span></label>
+                <label class="qopt"><input type="radio" name="experience" value="pm"><span>Працюю PM / Delivery Manager</span></label>
+              </div>
+              <span class="err">Оберіть, будь ласка, один варіант</span>
+            </fieldset>
+
+            <fieldset class="qgroup" id="qPmYears">
+              <legend>Ваш досвід у Project Management</legend>
+              <div class="qopts">
+                <label class="qopt"><input type="radio" name="pm_years" value="none"><span>Немає досвіду</span></label>
+                <label class="qopt"><input type="radio" name="pm_years" value="lt1"><span>До 1 року</span></label>
+                <label class="qopt"><input type="radio" name="pm_years" value="1_3"><span>1–3 роки</span></label>
+                <label class="qopt"><input type="radio" name="pm_years" value="3plus"><span>3+ роки</span></label>
+              </div>
+              <span class="err">Оберіть, будь ласка, один варіант</span>
+            </fieldset>
+
+            <fieldset class="qgroup" id="qGoal">
+              <legend>Яка ваша головна ціль?</legend>
+              <div class="qopts">
+                <label class="qopt"><input type="radio" name="goal" value="enter"><span>Увійти в професію PM</span></label>
+                <label class="qopt"><input type="radio" name="goal" value="switch"><span>Перейти в PM з іншої IT-ролі</span></label>
+                <label class="qopt"><input type="radio" name="goal" value="systemize"><span>Систематизувати та посилити навички</span></label>
+                <label class="qopt"><input type="radio" name="goal" value="interview"><span>Підготуватися до пошуку роботи</span></label>
+              </div>
+              <span class="err">Оберіть, будь ласка, один варіант</span>
+            </fieldset>
+
+            <p class="qsection">Контакти</p>
             <div class="f-row">
               <div class="field">
-                <label for="fName">Ім'я та прізвище</label>
-                <input type="text" id="fName" name="name" placeholder="Олена Ковальчук" autocomplete="name">
-                <span class="err">Вкажіть, будь ласка, ваше ім'я</span>
+                <label for="fEmail">Email</label>
+                <input type="email" id="fEmail" name="email" placeholder="you@example.com" autocomplete="email" inputmode="email">
+                <span class="err">Перевірте, будь ласка, адресу пошти</span>
+                <span class="hint">Для доступу до навчальної платформи</span>
               </div>
               <div class="field">
                 <label for="fPhone">Телефон або Telegram</label>
                 <input type="text" id="fPhone" name="phone" placeholder="+380 __ ___ __ __" autocomplete="tel">
                 <span class="err">Вкажіть контакт для зв'язку</span>
+                <span class="hint">Для звʼязку з менеджером</span>
               </div>
             </div>
-
 
             <!-- пастка для ботів: людина її не бачить і не заповнює -->
             <div class="trap" aria-hidden="true">
@@ -2429,22 +2501,60 @@ section{position:relative}
     delivery_failed:     'Не вдалося надіслати заявку. Спробуйте ще раз або напишіть нам у Telegram.'
   };
 
+  /** Which radio of a group is ticked, or '' if none. */
+  var picked = function(groupName){
+    var hit = form.querySelector('input[name="' + groupName + '"]:checked');
+    return hit ? hit.value : '';
+  };
+
+  var setGroupErr = function(id, bad){
+    var g = document.getElementById(id);
+    if (g) g.classList.toggle('has-error', bad);
+  };
+
+  /* Clear a group's error as soon as something is picked. */
+  ['experience', 'pm_years', 'goal'].forEach(function(groupName){
+    form.querySelectorAll('input[name="' + groupName + '"]').forEach(function(radio){
+      radio.addEventListener('change', function(){
+        var g = radio.closest('.qgroup');
+        if (g) g.classList.remove('has-error');
+      });
+    });
+  });
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var name = document.getElementById('fName');
+    var email = document.getElementById('fEmail');
     var phone = document.getElementById('fPhone');
     var agree = document.getElementById('fAgree');
     var consent = form.querySelector('.consent');
 
+    var experience = picked('experience');
+    var pmYears    = picked('pm_years');
+    var goal       = picked('goal');
+
     var bad = false;
     if (name.value.trim().length < 2) { setErr(name, true); bad = true; } else setErr(name, false);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) { setErr(email, true); bad = true; } else setErr(email, false);
     if (phone.value.trim().length < 5) { setErr(phone, true); bad = true; } else setErr(phone, false);
+
+    setGroupErr('qExperience', !experience); if (!experience) bad = true;
+    setGroupErr('qPmYears',    !pmYears);    if (!pmYears)    bad = true;
+    setGroupErr('qGoal',       !goal);       if (!goal)       bad = true;
+
     consent.classList.toggle('is-invalid', !agree.checked);
     if (!agree.checked) { bad = true; }
 
     if (bad) {
-      var first = form.querySelector('.has-error input, .has-error select') || (agree.checked ? null : agree);
-      if (first) first.focus();
+      var firstBad = form.querySelector('.has-error input, .has-error select')
+                  || (agree.checked ? null : agree);
+      if (firstBad) {
+        firstBad.focus();
+        // a chip radio is visually hidden, so scroll its group into view instead
+        var grp = firstBad.closest('.qgroup');
+        (grp || firstBad).scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
       return;
     }
 
@@ -2457,12 +2567,16 @@ section{position:relative}
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name:    name.value.trim(),
-        phone:   phone.value.trim(),
-        agree:   agree.checked,
-        website: document.getElementById('fWebsite').value,
-        source:  sourceField ? sourceField.value : 'zayavka',
-        page:    location.pathname + location.search
+        name:       name.value.trim(),
+        email:      email.value.trim(),
+        phone:      phone.value.trim(),
+        experience: experience,
+        pm_years:   pmYears,
+        goal:       goal,
+        agree:      agree.checked,
+        website:    document.getElementById('fWebsite').value,
+        source:     sourceField ? sourceField.value : 'zayavka',
+        page:       location.pathname + location.search
       })
     })
     .then(function(res){
@@ -2479,7 +2593,9 @@ section{position:relative}
       if (data && data.fields) {
         Object.keys(data.fields).forEach(function(key){
           var el = form.querySelector('[name="' + key + '"]');
-          if (el) setErr(el, true);
+          if (!el) return;
+          var grp = el.closest('.qgroup');
+          if (grp) grp.classList.add('has-error'); else setErr(el, true);
         });
       }
       showFail(MESSAGES[data && data.error] || MESSAGES.delivery_failed);
