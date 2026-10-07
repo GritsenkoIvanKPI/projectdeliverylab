@@ -22,6 +22,7 @@ Thumbs.db
 
 # зібрана тека для заливки на хостинг — перезбирається за потреби
 /deploy/
+deploy.zip
 
 # скріншоти, що падають у теку з Telegram
 telegram-cloud-photo-*
