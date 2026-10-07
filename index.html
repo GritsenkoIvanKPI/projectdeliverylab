@@ -696,20 +696,7 @@ section{position:relative}
 /* ============================================================
    PRICING
    ============================================================ */
-.badge-pill{
-  display:inline-flex;align-items:center;gap:11px;
-  background:rgba(255,100,36,.08);
-  border:1px solid rgba(255,100,36,.24);
-  color:var(--orange);
-  border-radius:9px;padding:11px 18px 11px 15px;
-  font-size:var(--fs-sm);letter-spacing:.05em;text-transform:uppercase;line-height:1;
-}
-.badge-pill::before{
-  content:'';width:9px;height:9px;flex:none;
-  background:var(--orange);border-radius:2px;
-}
-.badge-pill b{font-weight:600;letter-spacing:.06em}
-.prices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-3);align-items:stretch}
+.prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-3);align-items:stretch}
 .price{
   background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px 30px 34px;
   display:flex;flex-direction:column;position:relative;
@@ -1041,7 +1028,6 @@ section{position:relative}
   .panel-in{padding:var(--s-7) 40px}
   .form-panel{padding:var(--s-7) 40px}
   .mission-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-5);margin-top:64px}
-  .prices{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pains{grid-template-columns:repeat(2,minmax(0,1fr))}
   .foot-top{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
@@ -1061,6 +1047,9 @@ section{position:relative}
 
 @media (max-width:960px){
   br.lg{display:none}
+  /* three columns squeeze a 12-item list to 221px and five-line bullets;
+     one centred column reads better than three cramped ones */
+  .prices{grid-template-columns:minmax(0,1fr);max-width:560px;margin-inline:auto}
   .mcol .h5{margin-bottom:12px}
   /* full-bleed ticker: break out of the container padding, fade both edges */
   .tools-row{
@@ -1134,8 +1123,6 @@ section{position:relative}
   .author-photo{aspect-ratio:1/1}
   .author-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-3)}
   .author-stats span{max-width:none}
-  .badge-pill{align-items:flex-start;line-height:1.5;text-align:left;padding:10px 15px 10px 12px}
-  .badge-pill::before{margin-top:5px}
   .card{padding:26px 22px 24px}
   .price{padding:28px 22px 28px}
   .card .tile{width:56px;height:56px;border-radius:14px;margin-bottom:24px}
@@ -1794,77 +1781,70 @@ section{position:relative}
     <div class="head-center">
       <span class="eyebrow eyebrow--center reveal">Формати навчання</span>
       <h2 class="reveal" style="--d:70ms">Прозорі <span class="accent">тарифи</span> без прихованих умов</h2>
-      <p class="lead reveal" style="--d:130ms">Почніть із Foundation — його вартість зараховується в оплату основного курсу в повному обсязі.</p>
-      <div class="reveal" style="--d:190ms;margin-top:30px">
-        <span class="badge-pill"><span><b>Foundation</b> зараховується в оплату курсу на 100%</span></span>
-      </div>
+      <p class="lead reveal" style="--d:130ms">Три формати — від системної теоретичної бази до практики з персональним супроводом і підготовкою до співбесід.</p>
     </div>
 
     <div class="prices">
       <article class="price reveal">
-        <h3 class="h5">Foundation</h3>
-        <div class="who">Перший крок у професію</div>
-        <div class="amount"><b>1 990 ₴</b></div>
-        <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
-        <div class="rule"></div>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Вступні модулі 0.1 — 0.4</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Основи IT-індустрії та SDLC</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Роль PM, Agile, Scrum, Kanban</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Доступ до записів занять</li>
-        </ul>
-        <p class="price-note">Зараховується в оплату основного курсу.</p>
-      </article>
-
-      <article class="price reveal" style="--d:70ms">
-        <h3 class="h5">Core</h3>
-        <div class="who">Повна delivery-програма</div>
+        <h3 class="h5">Project Delivery Foundation</h3>
+        <div class="who">Системна база для роботи Project Manager</div>
         <div class="amount"><b>18 900 ₴</b></div>
         <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
         <div class="rule"></div>
         <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Усі модулі 1.0 — 7.0</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Практичні воркшопи в Jira</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Метрики Scrum і Kanban</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Фінальна delivery-симуляція</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Шаблони PM-документів</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Повна теоретична програма курсу</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>IT-індустрія та специфіка роботи IT-компаній</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>SDLC та роль Project Manager</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Agile, Scrum та Kanban</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Delivery Workflow та принципи роботи команди</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Основи планування</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Estimation Techniques</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Ключові Delivery-метрики</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Доступ до всіх лекцій курсу</li>
         </ul>
-        <p class="price-note">Оптимально для самостійного темпу.</p>
       </article>
 
-      <article class="price price--dark reveal" style="--d:140ms">
+      <article class="price price--dark reveal" style="--d:70ms">
         <span class="price-tag">Найпопулярніший</span>
-        <h3 class="h5">Pro</h3>
-        <div class="who">З перевіркою та фідбеком</div>
+        <h3 class="h5">Project Delivery Lab</h3>
+        <div class="who">Симуляція реальної роботи Project Manager</div>
         <div class="amount"><b>24 900 ₴</b></div>
         <a class="btn btn--orange" href="#zayavka">Обрати пакет</a>
         <div class="rule"></div>
         <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Усе з пакета Core</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Перевірка домашніх завдань</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Персональний фідбек від експерта</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Модуль 8.0: підготовка до співбесід</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Сертифікат про завершення</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Повна теоретична програма курсу</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Симуляція реальної роботи на IT-проєкті</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Практична робота в Jira</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Побудова та налаштування Delivery Workflow</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Grooming та Planning на практиці</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Застосування Estimation Techniques на практиці</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Scrum та Kanban метрики</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Velocity Forecasting та Capacity Planning</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Робота з Delivery Risks</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Створення документації процесів</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Практичні воркшопи та завдання</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Фінальна Delivery Simulation</li>
         </ul>
-        <p class="price-note">Найкращий баланс практики та підтримки.</p>
       </article>
 
-      <article class="price reveal" style="--d:210ms">
-        <h3 class="h5">Career Ready</h3>
-        <div class="who">До результату на ринку</div>
+      <article class="price reveal" style="--d:140ms">
+        <h3 class="h5">Project Delivery Lab + Mentorship</h3>
+        <div class="who">Практична підготовка + підготовка до співбесід</div>
         <div class="amount"><b>31 900 ₴</b></div>
         <a class="btn btn--line" href="#zayavka">Обрати пакет</a>
         <div class="rule"></div>
         <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Усе з пакета Pro</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>2 mock interview з експертом</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Розбір і упаковка CV</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Супровід у підготовці до співбесід</li>
-          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Індивідуальні консультації</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Усе з Project Delivery Lab</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Персональний супровід експерта</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Аналіз та доопрацювання CV та LinkedIn-профілю</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Підготовка до Interview</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>2 Mock Interviews з експертом</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Персональні рекомендації щодо підготовки до реальних співбесід</li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Побудова особистої стратегії розвитку кар'єри</li>
         </ul>
-        <p class="price-note">Стартова вартість пакета — до 34 900 ₴ залежно від обсягу супроводу.</p>
       </article>
     </div>
+
   </div>
 </section>
 
@@ -2069,17 +2049,17 @@ section{position:relative}
         </div>
 
         <div class="qa reveal" style="--d:300ms">
-          <button class="qa-q" aria-expanded="false">Як працює зарахування вартості Foundation?
+          <button class="qa-q" aria-expanded="false">Чим відрізняються три формати навчання?
             <span class="qa-ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="qa-a"><div><p>Ви можете почати з Foundation за 1 990 ₴, щоб перевірити формат і підхід. Якщо переходите на основний курс, уся сплачена сума зараховується в оплату обраного пакета в повному обсязі.</p></div></div>
+          <div class="qa-a"><div><p><b>Project Delivery Foundation</b> — повна теоретична програма: IT-індустрія, SDLC, роль PM, Agile, Scrum і Kanban, delivery workflow, оцінка та ключові метрики. <b>Project Delivery Lab</b> додає до цього практику: роботу в Jira, грумінг і планування, метрики, ризики, воркшопи та фінальну delivery-симуляцію. <b>Lab + Mentorship</b> — усе з Lab плюс персональний супровід експерта, розбір CV та LinkedIn, два mock interview і стратегія розвитку кар'єри.</p></div></div>
         </div>
 
         <div class="qa reveal" style="--d:360ms">
           <button class="qa-q" aria-expanded="false">Чи допомагаєте з підготовкою до співбесід?
             <span class="qa-ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="qa-a"><div><p>Модуль 8.0 включає 50 практичних питань за програмою курсу, аналіз CV, упаковку досвіду та два mock interview з експертом із персональним фідбеком. У пакеті Career Ready додається супровід у підготовці до реальних співбесід.</p></div></div>
+          <div class="qa-a"><div><p>Модуль 8.0 включає 50 практичних питань за програмою курсу, аналіз CV, упаковку досвіду та два mock interview з експертом із персональним фідбеком. Усе це входить у формат Lab + Mentorship разом із персональним супроводом і розбором LinkedIn-профілю.</p></div></div>
         </div>
       </div>
     </div>
@@ -2711,42 +2691,32 @@ section{position:relative}
       "offers": [
         {
           "@type": "Offer",
-          "name": "Project Delivery Lab: Foundation",
-          "price": "1990",
-          "priceCurrency": "UAH",
-          "category": "Paid",
-          "availability": "https://schema.org/PreOrder",
-          "description": "Вступні модулі 0.1 — 0.4. Вартість зараховується в оплату основного курсу.",
-          "url": "https://projectdeliverylab.com/#prices"
-        },
-        {
-          "@type": "Offer",
-          "name": "Project Delivery Lab: Core",
+          "name": "Project Delivery Foundation",
           "price": "18900",
           "priceCurrency": "UAH",
           "category": "Paid",
           "availability": "https://schema.org/PreOrder",
-          "description": "Усі модулі 1.0 — 7.0, воркшопи в Jira, метрики, фінальна delivery-симуляція.",
+          "description": "Повна теоретична програма: IT-індустрія, SDLC, роль PM, Agile, Scrum і Kanban, delivery workflow, основи планування, estimation techniques, ключові delivery-метрики.",
           "url": "https://projectdeliverylab.com/#prices"
         },
         {
           "@type": "Offer",
-          "name": "Project Delivery Lab: Pro",
+          "name": "Project Delivery Lab",
           "price": "24900",
           "priceCurrency": "UAH",
           "category": "Paid",
           "availability": "https://schema.org/PreOrder",
-          "description": "Усе з Core, перевірка домашніх завдань, фідбек експерта, модуль підготовки до співбесід, сертифікат.",
+          "description": "Повна теорія плюс симуляція реальної роботи на IT-проєкті: Jira, delivery workflow, grooming і planning, estimation, метрики Scrum і Kanban, velocity forecasting, capacity planning, ризики, документація, воркшопи та фінальна delivery simulation.",
           "url": "https://projectdeliverylab.com/#prices"
         },
         {
           "@type": "Offer",
-          "name": "Project Delivery Lab: Career Ready",
+          "name": "Project Delivery Lab + Mentorship",
           "price": "31900",
           "priceCurrency": "UAH",
           "category": "Paid",
           "availability": "https://schema.org/PreOrder",
-          "description": "Усе з Pro, 2 mock interview, розбір CV, супровід у підготовці до співбесід.",
+          "description": "Усе з Project Delivery Lab, персональний супровід експерта, аналіз CV та LinkedIn, підготовка до interview, 2 mock interviews і побудова стратегії розвитку кар'єри.",
           "url": "https://projectdeliverylab.com/#prices"
         }
       ]
@@ -2797,10 +2767,10 @@ section{position:relative}
         },
         {
           "@type": "Question",
-          "name": "Як працює зарахування вартості Foundation?",
+          "name": "Чим відрізняються три формати навчання?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ви можете почати з Foundation за 1 990 ₴. Якщо переходите на основний курс, уся сплачена сума зараховується в оплату обраного пакета в повному обсязі."
+            "text": "Project Delivery Foundation — повна теоретична програма: IT-індустрія, SDLC, роль PM, Agile, Scrum і Kanban, delivery workflow, оцінка та ключові метрики. Project Delivery Lab додає практику: Jira, грумінг і планування, метрики, ризики, воркшопи та фінальну delivery-симуляцію. Lab + Mentorship — усе з Lab плюс персональний супровід, розбір CV та LinkedIn, два mock interview і стратегія кар'єри."
           }
         },
         {
@@ -2808,7 +2778,7 @@ section{position:relative}
           "name": "Чи допомагаєте з підготовкою до співбесід?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Модуль 8.0 включає 50 практичних питань за програмою курсу, аналіз CV, упаковку досвіду та два mock interview з експертом. У пакеті Career Ready додається супровід."
+            "text": "Модуль 8.0 включає 50 практичних питань за програмою курсу, аналіз CV, упаковку досвіду та два mock interview з експертом. Усе це входить у формат Lab + Mentorship разом із персональним супроводом."
           }
         }
       ]
