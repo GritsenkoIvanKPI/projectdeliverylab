@@ -865,31 +865,35 @@ section{position:relative}
    ============================================================ */
 .form-panel{
   background:var(--blue);border-radius:var(--r-panel);padding:var(--s-8) var(--s-7);
-  position:relative;overflow:hidden;
+  position:relative;
 }
 .form-panel::before{
   content:'';position:absolute;inset:0;pointer-events:none;
+  border-radius:inherit;overflow:hidden;
   background:
     radial-gradient(620px 420px at 6% 0%, rgba(148,172,255,.42), transparent 62%),
     radial-gradient(560px 420px at 98% 100%, rgba(255,100,36,.34), transparent 58%);
 }
-.form-grid{position:relative;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1fr);gap:var(--s-7);align-items:center}
+.form-grid{position:relative;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1fr);gap:var(--s-7);align-items:start}
+/* Текст коротший за форму, тож тримаємо його в полі зору всю дорогу вниз.
+   96px — висота навігації, +25px повітря під нею. */
+.form-aside{position:sticky;top:121px}
 .form-aside .eyebrow{color:#fff}
 .form-aside .eyebrow::before{background:#fff}
 .form-aside h2{color:#fff;margin:24px 0 24px;font-size:clamp(26px,3.6vw,52px)}
-.form-aside h2 .accent{color:var(--orange-soft)}
+.form-aside h2 .accent{color:var(--orange)}
 .form-aside p{color:rgba(255,255,255,.72);max-width:440px}
 .form-list{margin-top:38px;display:grid;gap:16px}
 .form-list li{display:flex;gap:12px;align-items:flex-start;font-size:var(--fs-md);color:rgba(255,255,255,.86)}
 .form-list svg{width:18px;height:18px;flex:none;margin-top:3px;stroke:var(--beige);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
-.form-card{background:#fff;border-radius:20px;padding:36px;box-shadow:0 24px 60px rgba(0,0,0,.28)}
+.form-card{background:#fff;border-radius:20px;padding:30px;box-shadow:0 24px 60px rgba(0,0,0,.28)}
 .f-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.field{margin-bottom:18px}
+.field{margin-bottom:14px}
 .field label{display:block;font-size:var(--fs-sm);color:var(--ink-3);margin-bottom:9px;letter-spacing:.02em}
 .field input,.field select,.field textarea{
   width:100%;font:inherit;font-size:var(--fs-md);color:var(--ink);background:var(--page);
-  border:1px solid var(--line);border-radius:var(--r-btn);padding:15px 16px;
+  border:1px solid var(--line);border-radius:var(--r-btn);padding:13px 15px;
   transition:border-color .25s var(--ease),box-shadow .25s var(--ease),background-color .25s var(--ease);
 }
 .field textarea{resize:vertical;min-height:104px}
@@ -900,13 +904,13 @@ section{position:relative}
 }
 .field.has-error input,.field.has-error select{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,100,36,.13)}
 .err{display:none;font-size:var(--fs-xs);color:var(--orange);margin-top:7px}
-.hint{display:block;font-size:var(--fs-xs);color:var(--ink-3);margin-top:7px;line-height:1.4}
+.hint{display:block;font-size:var(--fs-xs);color:var(--ink-3);margin-top:6px;line-height:1.4}
 .field.has-error .hint{display:none}
 
 /* --- choice groups: radios drawn as chips --- */
-.qgroup{border:0;margin:0 0 20px;padding:0;min-width:0}
+.qgroup{border:0;margin:0 0 15px;padding:0;min-width:0}
 .qgroup legend{
-  display:block;padding:0;margin-bottom:10px;
+  display:block;padding:0;margin-bottom:8px;
   font-size:var(--fs-sm);color:var(--ink-3);letter-spacing:.02em;
 }
 .qopts{display:flex;flex-wrap:wrap;gap:8px}
@@ -914,7 +918,7 @@ section{position:relative}
 .qopt input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .qopt span{
   display:inline-flex;align-items:center;
-  padding:10px 14px;border-radius:10px;cursor:pointer;
+  padding:8px 13px;border-radius:10px;cursor:pointer;
   border:1px solid var(--line);background:var(--page);
   font-size:var(--fs-sm);line-height:1.3;color:var(--ink-2);
   transition:border-color .25s var(--ease),background-color .25s var(--ease),color .25s var(--ease);
@@ -929,14 +933,14 @@ section{position:relative}
 .qgroup.has-error .err{display:block}
 
 .qsection{
-  margin:26px 0 14px;padding-top:20px;border-top:1px solid var(--line-soft);
+  margin:18px 0 12px;padding-top:16px;border-top:1px solid var(--line-soft);
   font-size:var(--fs-sm);color:var(--ink);font-weight:600;letter-spacing:.02em;
 }
 .field.has-error .err{display:block}
 .consent{display:flex;gap:11px;align-items:flex-start;font-size:var(--fs-sm);color:var(--ink-3);line-height:1.5;margin:6px 0 24px}
 .trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .consent input{width:17px;height:17px;flex:none;margin-top:2px;accent-color:var(--blue)}
-.consent{border-radius:8px;padding:6px;margin:0 -6px 18px;transition:background-color .3s var(--ease),color .3s var(--ease)}
+.consent{border-radius:8px;padding:6px;margin:0 -6px 14px;transition:background-color .3s var(--ease),color .3s var(--ease)}
 .consent.is-invalid{background:rgba(255,100,36,.09);color:var(--orange)}
 .consent.is-invalid input{outline:2px solid var(--orange);outline-offset:2px}
 .form-card .btn{width:100%}
@@ -1092,6 +1096,7 @@ section{position:relative}
   .hero-media,.hero-media .shot{min-height:0}
   .hero-media .shot{aspect-ratio:4/3}
   .faq-grid,.form-grid{grid-template-columns:minmax(0,1fr);gap:var(--s-5)}
+  .form-aside{position:static}
   .author{grid-template-columns:minmax(0,1fr);
     grid-template-areas:"head" "photo" "copy";
     grid-template-rows:auto auto auto;row-gap:var(--s-4)}
