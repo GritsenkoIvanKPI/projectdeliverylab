@@ -42,7 +42,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/img/hero-author.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/hero-stage.jpg" fetchpriority="high">
 <style>
 /* ============================================================
    PROJECT DELIVERY LAB — design tokens
@@ -294,12 +294,20 @@ section{position:relative}
   position:relative;height:100%;min-height:642px;border-radius:18px;overflow:hidden;
   box-shadow:var(--sh-3);background:var(--blue-5);
 }
-.hero-media .shot>img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;position:absolute;inset:0}
+.hero-media .shot>img{width:100%;height:100%;object-fit:cover;object-position:50% 10%;position:absolute;inset:0}
+
+/* На вузькому десктопі колонка стискається, а висоту рядка диктує текст —
+   кадр виходив 0.54–0.69 і зрізав праву половину екрана з назвою.
+   Тут тримаємо власну пропорцію фото і центруємо його в рядку. */
+@media (min-width:961px) and (max-width:1366px){
+  .hero-media{display:flex;align-items:center;min-height:0}
+  .hero-media .shot{width:100%;height:auto;min-height:0;aspect-ratio:4/5}
+}
 .shot-tint{position:absolute;inset:0;background:linear-gradient(200deg,rgba(61,59,255,.18),rgba(255,100,36,.10));mix-blend-mode:multiply}
 .shot-fade{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,15,77,.45),rgba(10,15,77,0) 46%)}
 
 .play{
-  position:absolute;top:20px;right:20px;width:92px;height:92px;
+  position:absolute;top:20px;left:20px;width:92px;height:92px;
   border-radius:50%;background:#fff;
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 10px 34px rgba(10,15,77,.24);
@@ -1167,7 +1175,7 @@ section{position:relative}
   .hero-proof{gap:var(--s-4) var(--s-5)}
   .shot-pill{left:14px;right:14px;bottom:14px;padding:8px 16px 8px 10px}
   .ava-row img{width:32px;height:32px}
-  .play{width:70px;height:70px;top:14px;right:14px}
+  .play{width:70px;height:70px;top:14px;left:14px}
   .qa-a p{padding-right:28px}
   .mrow-head{padding:18px 18px;gap:14px}
   .mrow-list{padding:2px 18px 20px}
@@ -1257,7 +1265,7 @@ section{position:relative}
 
         <div class="hero-media reveal" style="--d:120ms">
           <div class="shot">
-            <img src="assets/img/hero-author.jpg" alt="Євген Хаснатінов розповідає про курс Project Delivery Lab" width="1124" height="1284" fetchpriority="high" decoding="async">
+            <img src="assets/img/hero-stage.jpg" alt="Євген Хаснатінов проводить заняття Project Delivery Lab біля екрана з метриками доставки" width="1024" height="1280" fetchpriority="high" decoding="async">
             <div class="shot-tint" aria-hidden="true"></div>
             <div class="shot-fade" aria-hidden="true"></div>
             <button class="play" id="playBtn" aria-label="Дивитись презентацію курсу">
