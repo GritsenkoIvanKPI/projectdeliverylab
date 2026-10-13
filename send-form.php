@@ -103,6 +103,39 @@ if (isset($_GET['selftest'])) {
             $out['tg_chat_error'] = $chat['ok'] ? null : $chat['error'];
         }
 
+        // ?selftest=1&check=1&updates=1 показує, які чати бот узагалі бачить.
+        // Потрібно, коли chat_id невідомий або застарів: у групі з увімкненим
+        // режимом приватності бот не бачить звичайних повідомлень, тож
+        // getUpdates часто порожній — але додавання бота в групу лишає там
+        // подію my_chat_member, і чат усе одно видно.
+        if (isset($_GET['updates']) && $me['ok']) {
+            $upd = $ask('getUpdates', ['limit' => 100]);
+            $seen = [];
+
+            foreach ((array)($upd['result'] ?? []) as $u) {
+                // той самий чат лежить у різних полях залежно від події
+                foreach (['message', 'edited_message', 'channel_post', 'my_chat_member'] as $k) {
+                    $chat = $u[$k]['chat'] ?? null;
+                    if (!is_array($chat) || !isset($chat['id'])) {
+                        continue;
+                    }
+                    // Тільки назва й тип: тексти повідомлень назовні не віддаємо.
+                    $seen[(string)$chat['id']] = [
+                        'chat_id' => (string)$chat['id'],
+                        'type'    => (string)($chat['type'] ?? ''),
+                        'name'    => (string)($chat['title'] ?? $chat['username'] ?? $chat['first_name'] ?? ''),
+                    ];
+                }
+            }
+
+            $out['tg_visible_chats'] = array_values($seen);
+            $out['tg_updates_error'] = $upd['ok'] ? null : $upd['error'];
+            if (!$seen) {
+                $out['tg_hint'] = 'Порожньо. Надішліть у потрібний чат команду /start@'
+                    . (string)($me['result']['username'] ?? 'вашбот') . ' і оновіть сторінку.';
+            }
+        }
+
         // Токен не має витекти у відповідь навіть випадково.
         if ($t !== '') {
             $out = json_decode(str_replace($t, '***', json_encode($out)), true);
