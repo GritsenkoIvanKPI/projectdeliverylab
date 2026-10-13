@@ -116,6 +116,20 @@ https://projectdeliverylab.com/send-form.php?selftest=1
 
 Має бути `"sheet_present": true` і `"sheet_secret_set": true`.
 
+**Чи живий бот Telegram** — та сама адреса з `&check=1`:
+
+```
+https://projectdeliverylab.com/send-form.php?selftest=1&check=1
+```
+
+Вона питає сам Telegram і повертає:
+
+- `"tg_token_valid": true` і `"tg_bot": "@ваш_бот"` — токен робочий;
+- `"tg_chat_ok": true` і `"tg_chat": "supergroup · Назва"` — бот бачить чат.
+
+Якщо щось не так, поруч буде `tg_token_error` або `tg_chat_error` з дослівним
+поясненням від Telegram. Нічого не надсилається — обидва запити лише читають.
+
 **Чи працює сам скрипт** — відкрити в браузері вашу адресу з кроку 3,
 дописавши в кінці `?secret=` і свій секрет:
 

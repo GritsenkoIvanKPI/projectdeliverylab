@@ -47,7 +47,7 @@ if (isset($_GET['selftest'])) {
     $cfgPath = __DIR__ . '/config.php';
     $cfg     = is_file($cfgPath) ? @require $cfgPath : null;
 
-    respond(200, [
+    $out = [
         'ok'              => true,
         'php'             => PHP_VERSION,
         'php_ok'          => version_compare(PHP_VERSION, '7.4', '>='),
@@ -64,7 +64,52 @@ if (isset($_GET['selftest'])) {
         'sheet_present'   => is_array($cfg) && !empty($cfg['sheet_url']) && strpos((string)$cfg['sheet_url'], 'PASTE') !== 0,
         'sheet_secret_set'=> is_array($cfg) && !empty($cfg['sheet_secret']) && strpos((string)$cfg['sheet_secret'], 'PASTE') !== 0,
         'can_write_tmp'   => is_writable(sys_get_temp_dir()),
-    ]);
+    ];
+
+    // ?selftest=1&check=1 додатково питає сам Telegram, чи живий токен і чи
+    // бачить бот указаний чат. Обидва виклики лише читають — жодного
+    // повідомлення не надсилається, тож адресу не можна використати для спаму.
+    if (isset($_GET['check']) && is_array($cfg)) {
+        $t  = trim((string)($cfg['bot_token'] ?? ''));
+        $ch = trim((string)($cfg['chat_id'] ?? ''));
+        $base = rtrim((string)($cfg['api_base'] ?? 'https://api.telegram.org'), '/');
+
+        /** Відповідь Telegram без зайвого: лише ok та текст помилки. */
+        $ask = static function (string $method, array $fields) use ($base, $t) {
+            $r = httpPost($base . '/bot' . $t . '/' . $method, $fields);
+            if ($r['body'] === null) {
+                return ['ok' => false, 'error' => 'мережа: ' . ($r['error'] ?: 'немає відповіді')];
+            }
+            $j = json_decode((string)$r['body'], true);
+            if (!is_array($j)) {
+                return ['ok' => false, 'error' => 'нерозпізнана відповідь, http ' . $r['status']];
+            }
+            return ['ok' => !empty($j['ok']), 'error' => (string)($j['description'] ?? ''),
+                    'result' => $j['result'] ?? null];
+        };
+
+        $me = $ask('getMe', []);
+        $out['tg_token_valid'] = $me['ok'];
+        $out['tg_bot'] = $me['ok'] ? '@' . (string)($me['result']['username'] ?? '?') : null;
+        $out['tg_token_error'] = $me['ok'] ? null : $me['error'];
+
+        if ($me['ok'] && $ch !== '') {
+            $chat = $ask('getChat', ['chat_id' => $ch]);
+            $out['tg_chat_ok'] = $chat['ok'];
+            $out['tg_chat'] = $chat['ok']
+                ? trim(((string)($chat['result']['type'] ?? '')) . ' · '
+                     . (string)($chat['result']['title'] ?? $chat['result']['username'] ?? ''))
+                : null;
+            $out['tg_chat_error'] = $chat['ok'] ? null : $chat['error'];
+        }
+
+        // Токен не має витекти у відповідь навіть випадково.
+        if ($t !== '') {
+            $out = json_decode(str_replace($t, '***', json_encode($out)), true);
+        }
+    }
+
+    respond(200, $out);
 }
 
 /* ---------- метод ---------- */
