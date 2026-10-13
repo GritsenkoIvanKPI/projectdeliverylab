@@ -269,16 +269,7 @@ if ($page !== '') {
 
 $lines[] = '<i>' . tg(date('d.m.Y H:i')) . '</i>';
 
-$text = implode("\n", $lines);
-
 /* ---------- відправка ---------- */
-
-$payload = [
-    'chat_id'                  => $chatId,
-    'text'                     => $text,
-    'parse_mode'               => 'HTML',
-    'disable_web_page_preview' => true,
-];
 
 /**
  * POST form-encoded. Через cURL, а якщо розширення немає — через потік:
@@ -359,25 +350,6 @@ function httpPost(string $url, array $fields, bool $follow = false): array
 // «надіслати» ще раз і в уцілілому каналі з'явиться дубль.
 $delivered = [];
 
-/* --- Telegram --- */
-
-$apiBase = rtrim((string)($config['api_base'] ?? 'https://api.telegram.org'), '/');
-$sent = httpPost($apiBase . '/bot' . $token . '/sendMessage', $payload);
-
-if ($sent['body'] === null || $sent['status'] !== 200) {
-    // Причину пишемо в лог, але не віддаємо назовні: текст помилки API може
-    // цитувати запит, а токен не має потрапити у відповідь браузеру.
-    error_log('send-form: telegram failed, http ' . $sent['status'] . ' ' . $sent['error']
-        . ' ' . substr((string)$sent['body'], 0, 300));
-} else {
-    $result = json_decode((string)$sent['body'], true);
-    if (!is_array($result) || empty($result['ok'])) {
-        error_log('send-form: telegram rejected the message: ' . substr((string)$sent['body'], 0, 300));
-    } else {
-        $delivered[] = 'telegram';
-    }
-}
-
 /* --- Google-таблиця (необовʼязкова) --- */
 
 $sheetUrl    = trim((string)($config['sheet_url'] ?? ''));
@@ -408,6 +380,37 @@ if ($sheetUrl !== '' && strpos($sheetUrl, 'PASTE') !== 0) {
         error_log('send-form: sheet rejected the row: ' . substr((string)$sheetRes['body'], 0, 300));
     } else {
         $delivered[] = 'sheet';
+    }
+}
+
+/* --- Telegram --- */
+
+// Якщо рядок у таблицю не ліг, менеджер має побачити це там, куди дивиться
+// щодня, а не в журналі помилок хостингу: заявку доведеться вписати руками.
+if ($sheetUrl !== '' && !in_array('sheet', $delivered, true)) {
+    $lines[] = '';
+    $lines[] = '⚠️ <b>У таблицю не записалось</b> — додайте рядок вручну.';
+}
+
+$apiBase = rtrim((string)($config['api_base'] ?? 'https://api.telegram.org'), '/');
+$sent = httpPost($apiBase . '/bot' . $token . '/sendMessage', [
+    'chat_id'                  => $chatId,
+    'text'                     => implode("\n", $lines),
+    'parse_mode'               => 'HTML',
+    'disable_web_page_preview' => true,
+]);
+
+if ($sent['body'] === null || $sent['status'] !== 200) {
+    // Причину пишемо в лог, але не віддаємо назовні: текст помилки API може
+    // цитувати запит, а токен не має потрапити у відповідь браузеру.
+    error_log('send-form: telegram failed, http ' . $sent['status'] . ' ' . $sent['error']
+        . ' ' . substr((string)$sent['body'], 0, 300));
+} else {
+    $result = json_decode((string)$sent['body'], true);
+    if (!is_array($result) || empty($result['ok'])) {
+        error_log('send-form: telegram rejected the message: ' . substr((string)$sent['body'], 0, 300));
+    } else {
+        $delivered[] = 'telegram';
     }
 }
 
