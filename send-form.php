@@ -61,6 +61,8 @@ if (isset($_GET['selftest'])) {
         'can_send'        => function_exists('curl_init') || (bool)ini_get('allow_url_fopen'),
         'ext_mbstring'    => function_exists('mb_substr'),
         'ext_json'        => function_exists('json_encode'),
+        'sheet_present'   => is_array($cfg) && !empty($cfg['sheet_url']) && strpos((string)$cfg['sheet_url'], 'PASTE') !== 0,
+        'sheet_secret_set'=> is_array($cfg) && !empty($cfg['sheet_secret']) && strpos((string)$cfg['sheet_secret'], 'PASTE') !== 0,
         'can_write_tmp'   => is_writable(sys_get_temp_dir()),
     ]);
 }
@@ -282,9 +284,13 @@ $payload = [
  * POST form-encoded. Через cURL, а якщо розширення немає — через потік:
  * на частині тарифів ext-curl не встановлений.
  *
+ * $follow потрібен для Google Apps Script: /exec завжди відповідає 302 на
+ * script.googleusercontent.com, і без переходу ми отримали б порожнє тіло.
+ * Telegram не редиректить, тож там лишаємо вимкненим.
+ *
  * @return array{body: ?string, status: int, error: string}
  */
-function httpPost(string $url, array $fields): array
+function httpPost(string $url, array $fields, bool $follow = false): array
 {
     $body = http_build_query($fields);
 
@@ -296,6 +302,8 @@ function httpPost(string $url, array $fields): array
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => 15,
             CURLOPT_CONNECTTIMEOUT => 8,
+            CURLOPT_FOLLOWLOCATION => $follow,
+            CURLOPT_MAXREDIRS      => 3,
         ]);
         $response = curl_exec($ch);
         $status   = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -320,6 +328,8 @@ function httpPost(string $url, array $fields): array
                              . 'Content-Length: ' . strlen($body) . "\r\n",
             'content'       => $body,
             'timeout'       => 15,
+            'follow_location' => $follow ? 1 : 0,
+            'max_redirects'   => 3,
             // читаємо тіло навіть на 4xx, щоб залогувати причину
             'ignore_errors' => true,
         ],
@@ -344,6 +354,13 @@ function httpPost(string $url, array $fields): array
     ];
 }
 
+// Заявка йде у два незалежні канали. Падіння одного не має з'їдати лід:
+// відповідь успішна, якщо її прийняв хоча б один, інакше відвідувач натисне
+// «надіслати» ще раз і в уцілілому каналі з'явиться дубль.
+$delivered = [];
+
+/* --- Telegram --- */
+
 $apiBase = rtrim((string)($config['api_base'] ?? 'https://api.telegram.org'), '/');
 $sent = httpPost($apiBase . '/bot' . $token . '/sendMessage', $payload);
 
@@ -352,12 +369,49 @@ if ($sent['body'] === null || $sent['status'] !== 200) {
     // цитувати запит, а токен не має потрапити у відповідь браузеру.
     error_log('send-form: telegram failed, http ' . $sent['status'] . ' ' . $sent['error']
         . ' ' . substr((string)$sent['body'], 0, 300));
-    respond(502, ['ok' => false, 'error' => 'delivery_failed']);
+} else {
+    $result = json_decode((string)$sent['body'], true);
+    if (!is_array($result) || empty($result['ok'])) {
+        error_log('send-form: telegram rejected the message: ' . substr((string)$sent['body'], 0, 300));
+    } else {
+        $delivered[] = 'telegram';
+    }
 }
 
-$result = json_decode((string)$sent['body'], true);
-if (!is_array($result) || empty($result['ok'])) {
-    error_log('send-form: telegram rejected the message: ' . substr((string)$sent['body'], 0, 300));
+/* --- Google-таблиця (необовʼязкова) --- */
+
+$sheetUrl    = trim((string)($config['sheet_url'] ?? ''));
+$sheetSecret = trim((string)($config['sheet_secret'] ?? ''));
+
+if ($sheetUrl !== '' && strpos($sheetUrl, 'PASTE') !== 0) {
+    // Мітку часу ставить сам скрипт — у часовому поясі таблиці, а не сервера.
+    $sheetRes = httpPost($sheetUrl, [
+        'secret'     => $sheetSecret,
+        'name'       => $name,
+        'email'      => $email,
+        'phone'      => $phone,
+        'experience' => $EXPERIENCE[$exp],
+        'pm_years'   => $PM_YEARS[$years],
+        'goal'       => $GOALS[$goal],
+        'source'     => $sourceLabel,
+        'page'       => $page,
+    ], true);
+
+    $sheetBody = json_decode((string)$sheetRes['body'], true);
+
+    if ($sheetRes['body'] === null || $sheetRes['status'] !== 200) {
+        error_log('send-form: sheet failed, http ' . $sheetRes['status'] . ' ' . $sheetRes['error']
+            . ' ' . substr((string)$sheetRes['body'], 0, 300));
+    } elseif (!is_array($sheetBody) || empty($sheetBody['ok'])) {
+        // Apps Script віддає 200 навіть тоді, коли всередині сталася помилка,
+        // тож на статус покладатися не можна — дивимося на тіло.
+        error_log('send-form: sheet rejected the row: ' . substr((string)$sheetRes['body'], 0, 300));
+    } else {
+        $delivered[] = 'sheet';
+    }
+}
+
+if (!$delivered) {
     respond(502, ['ok' => false, 'error' => 'delivery_failed']);
 }
 

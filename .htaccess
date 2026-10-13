@@ -11,7 +11,7 @@
 </FilesMatch>
 
 # Робочі документи проєкту не мають віддаватись, якщо колись потраплять на сервер.
-<FilesMatch "\.(md|txt|mjs)$">
+<FilesMatch "\.(md|txt|mjs|gs)$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
