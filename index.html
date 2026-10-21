@@ -877,6 +877,17 @@ section{position:relative}
 .qa.is-open .qa-a{grid-template-rows:1fr}
 .qa-a>div{overflow:hidden}
 .qa-a p{padding:0 68px 28px 28px;font-size:var(--fs-md);color:var(--ink-2)}
+.qa-a p:not(:last-child){padding-bottom:12px}
+/* обовʼязкове розкриття про надавача фінпослуги — тихіше за саму відповідь */
+.qa-a .qa-note{font-size:var(--fs-xs);color:var(--ink-3);line-height:1.6}
+.qa-a a{
+  color:var(--blue);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1px;border-radius:3px;
+  transition:color .25s var(--ease);
+}
+.qa-a a:hover{color:var(--orange)}
+.qa-a a:active{color:var(--blue-2)}
+.qa-a a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 
 /* ============================================================
    FORM
@@ -2093,6 +2104,16 @@ section{position:relative}
         </div>
 
         <div class="qa reveal" style="--d:360ms">
+          <button class="qa-q" aria-expanded="false">Чи можна оплатити частинами?
+            <span class="qa-ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+          <div class="qa-a"><div>
+            <p>Так, будь-який із трьох форматів — через <b>«Покупку частинами» від monobank</b>. Від 3 до 25 щомісячних платежів рівними частинами, реальна річна процентна ставка <b>0,000001%</b>, тобто фактично без переплати. Перший платіж вносите одразу при оформленні, решту списують щомісяця. Наприклад, <b>Project Delivery Lab</b> за 24 900 ₴ на 10 платежів — це 2 490 ₴ на місяць.</p>
+            <p class="qa-note">Послугу надає АТ «УНІВЕРСАЛ БАНК», ліцензія НБУ №92 від 20.01.1994, номер у держреєстрі банків №226. Сума розстрочки — від 2 ₴ до 400 000 ₴. Інформація про істотні характеристики продукту та попередження — на <a href="https://chast.monobank.ua" target="_blank" rel="noopener">chast.monobank.ua</a>.</p>
+          </div></div>
+        </div>
+
+        <div class="qa reveal" style="--d:420ms">
           <button class="qa-q" aria-expanded="false">Чи допомагаєте з підготовкою до співбесід?
             <span class="qa-ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
@@ -2825,6 +2846,14 @@ section{position:relative}
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Project Delivery Foundation — повна теоретична програма: IT-індустрія, SDLC, роль PM, Agile, Scrum і Kanban, delivery workflow, оцінка та ключові метрики. Project Delivery Lab додає практику: Jira, грумінг і планування, метрики, ризики, воркшопи та фінальну delivery-симуляцію. Lab + Mentorship — усе з Lab плюс персональний супровід, розбір CV та LinkedIn, два mock interview і стратегія кар'єри."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чи можна оплатити частинами?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Так, будь-який із трьох форматів — через «Покупку частинами» від monobank: від 3 до 25 щомісячних платежів рівними частинами, реальна річна процентна ставка 0,000001%. Перший платіж вносите при оформленні, решту списують щомісяця. Послугу надає АТ «УНІВЕРСАЛ БАНК», ліцензія НБУ №92 від 20.01.1994, номер у держреєстрі банків №226."
           }
         },
         {
