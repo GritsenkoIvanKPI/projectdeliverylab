@@ -1039,6 +1039,16 @@ section{position:relative}
 .soc a:hover{background:var(--blue);border-color:var(--blue);transform:translateY(-2px)}
 .soc a:hover svg{fill:#fff}
 .foot-bottom{border-top:1px solid var(--line);padding-top:var(--s-4);display:flex;justify-content:space-between;gap:var(--s-3);flex-wrap:wrap;font-size:var(--fs-sm);color:var(--ink-3)}
+/* юридичні сторінки — окремим рядком: третім елементом у foot-bottom
+   вони тіснили б копірайт при space-between */
+.foot-legal{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:var(--s-3)}
+.foot-legal a{
+  font-size:var(--fs-sm);color:var(--ink-3);border-radius:4px;
+  transition:color .25s var(--ease);
+}
+.foot-legal a:hover{color:var(--blue)}
+.foot-legal a:active{color:var(--blue-2)}
+.foot-legal a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 .tbd{color:var(--ink-3);font-style:normal}
 .foot-col a.foot-ct{display:flex;align-items:flex-start;gap:10px}
 .foot-ct svg{width:17px;height:17px;flex:none;fill:currentColor;margin-top:4px}
@@ -2325,6 +2335,12 @@ section{position:relative}
       <span>© 2026 Project Delivery Lab. Усі права захищені.</span>
       <span>Практичний курс IT Project Management</span>
     </div>
+
+    <nav class="foot-legal" aria-label="Документи">
+      <a href="/terms.html">Правила та умови надання послуг</a>
+      <a href="/refund.html">Політика повернення коштів</a>
+      <a href="/contacts.html">Відомості про виконавця</a>
+    </nav>
   </div>
 </footer>
 
