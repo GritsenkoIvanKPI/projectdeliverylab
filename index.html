@@ -722,6 +722,9 @@ section{position:relative}
   display:block;width:100%;height:auto;border-radius:12px;
   /* пропорцію фіксуємо під кожне джерело — інакше блок стрибає при завантаженні */
   aspect-ratio:1200/256;
+  /* банер білий, а сторінка — тепло-сіра: без рамки й тіні він читався б
+     як випадкова пляма, а не як поверхня в одному ряду з картками тарифів */
+  border:1px solid var(--line);box-shadow:var(--sh-1);
 }
 @media (min-width:1080px){
   .pay-parts img{aspect-ratio:3500/103;border-radius:8px}
