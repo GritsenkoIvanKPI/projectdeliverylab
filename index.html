@@ -733,14 +733,24 @@ section{position:relative}
 @media (max-width:1079px){
   .pay-parts{max-width:620px}
 }
-.pay-note{
-  margin:14px auto 0;max-width:860px;text-align:center;
-  font-size:var(--fs-xs);line-height:1.6;color:var(--ink-3);
+/* Текст банку про продукт «Покупка частинами» — наводиться дослівно,
+   тому лише розмічений, без скорочень і переформулювань. */
+.pay-legal{
+  margin-top:16px;padding-top:16px;border-top:1px solid var(--line);
+  font-size:var(--fs-xs);line-height:1.65;color:var(--ink-3);
 }
-.pay-note a{color:var(--ink-2);text-decoration:underline;text-underline-offset:2px;transition:color .25s var(--ease)}
-.pay-note a:hover{color:var(--orange)}
-.pay-note a:active{color:var(--blue)}
-.pay-note a:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:3px}
+.pay-legal p{margin:0 0 4px}
+.pay-legal-t{font-weight:600;color:var(--ink-2);margin-bottom:10px}
+.pay-legal-h{margin-top:10px;color:var(--ink-2)}
+.pay-legal ul{margin:4px 0 0;padding:0;list-style:none}
+.pay-legal li{position:relative;padding-left:14px;margin-bottom:3px}
+.pay-legal li::before{content:'';position:absolute;left:0;top:.78em;
+  width:6px;height:1px;background:var(--blue-4)}
+.pay-legal a{color:var(--ink-2);text-decoration:underline;text-underline-offset:2px;
+  border-radius:3px;transition:color .25s var(--ease)}
+.pay-legal a:hover{color:var(--orange)}
+.pay-legal a:active{color:var(--blue)}
+.pay-legal a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 
 .prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-3);align-items:stretch}
 .price{
@@ -1941,7 +1951,21 @@ section{position:relative}
         <source media="(min-width:1080px)" srcset="assets/img/monopay-strip.png">
         <img src="assets/img/monopay-block.png" alt="monobank: ціна на все ділиться на частини" loading="lazy" decoding="async">
       </picture>
-      <p class="pay-note">Реальна річна процентна ставка — 0,000001%, макс. строк кредитування до 400 000 ₴ — 24 місяці. Перший внесок — аванс у розмірі щомісячного платежу. АТ «УНІВЕРСАЛ БАНК», ліцензія НБУ №92 від 20.01.1994, у держреєстрі банків №226, деталі на <a href="https://monobank.ua" target="_blank" rel="noopener">monobank.ua</a>.</p>
+      <div class="pay-legal">
+        <p class="pay-legal-t">Покупка частинами monobank | Universal Bank</p>
+        <p class="pay-legal-h">Надавач послуг:</p>
+        <p>АТ «УНІВЕРСАЛ БАНК» ліцензія НБУ No92 від 20.01.1994, номер у держреєстрі банків No 226.</p>
+        <p class="pay-legal-h">Характеристики продукту:</p>
+        <ul>
+          <li>Мінімальна сума розстрочки: 2 грн</li>
+          <li>Максимальна сума розстрочки: 400 000 грн</li>
+          <li>Реальна річна процентна ставка: 0,000001%</li>
+          <li>Доступний строк, платежів: 3 - 25</li>
+          <li>Порядок погашення: щомісячні платежі рівними частинами</li>
+          <li>Перший платіж у момент оформлення покупки</li>
+          <li>Інформація про істотні характеристики продукту та попередження розміщені на сайті продукту <a href="https://chast.monobank.ua" target="_blank" rel="noopener">chast.monobank.ua</a></li>
+        </ul>
+      </div>
     </div>
 
   </div>
@@ -2159,8 +2183,8 @@ section{position:relative}
             <span class="qa-ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
           <div class="qa-a"><div>
-            <p>Так, будь-який із трьох форматів — через <b>«Покупку частинами» від monobank</b>. Від 3 до 25 платежів рівними частинами, реальна річна процентна ставка <b>0,000001%</b>, тобто фактично без переплати. Перший платіж — аванс у момент оформлення, решту списують щомісяця. Наприклад, <b>Project Delivery Lab</b> за 24 900 ₴ на 10 платежів — це 2 490 ₴ на місяць.</p>
-            <p class="qa-note">Послугу надає АТ «УНІВЕРСАЛ БАНК», ліцензія НБУ №92 від 20.01.1994, номер у держреєстрі банків №226. Сума розстрочки — від 2 ₴ до 400 000 ₴. Інформація про істотні характеристики продукту та попередження — на <a href="https://chast.monobank.ua" target="_blank" rel="noopener">chast.monobank.ua</a>.</p>
+            <p>Так, будь-який із трьох форматів — через <b>«Покупку частинами» від monobank</b>. Наприклад, <b>Project Delivery Lab</b> за 24 900 ₴ на 10 платежів — це 2 490 ₴ на місяць.</p>
+            <p class="qa-note">Характеристики продукту та дані надавача послуги — у блоці <a href="#prices">«Покупка частинами»</a> під тарифами і на сайті продукту <a href="https://chast.monobank.ua" target="_blank" rel="noopener">chast.monobank.ua</a>.</p>
           </div></div>
         </div>
 
@@ -2915,7 +2939,7 @@ section{position:relative}
           "name": "Чи можна оплатити частинами?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Так, будь-який із трьох форматів — через «Покупку частинами» від monobank: від 3 до 25 платежів рівними частинами, реальна річна процентна ставка 0,000001%. Перший платіж — аванс у момент оформлення, решту списують щомісяця. Послугу надає АТ «УНІВЕРСАЛ БАНК», ліцензія НБУ №92 від 20.01.1994, номер у держреєстрі банків №226."
+            "text": "Так, будь-який із трьох форматів — через «Покупку частинами» від monobank. Наприклад, Project Delivery Lab за 24 900 ₴ на 10 платежів — це 2 490 ₴ на місяць. Характеристики продукту та дані надавача послуги наведені на сторінці під блоком тарифів і на сайті продукту chast.monobank.ua."
           }
         },
         {
