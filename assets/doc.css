@@ -107,7 +107,6 @@ p:last-child{margin-bottom:0}
 }
 .foot-legal a:hover{color:var(--blue)}
 .foot-legal a:active{color:var(--blue-2)}
-.tbd{color:var(--ink-3);font-style:normal}
 .foot-col a.foot-ct{display:flex;align-items:flex-start;gap:10px}
 .foot-ct svg{width:17px;height:17px;flex:none;fill:currentColor;margin-top:4px}
 .foot-ct span{min-width:0;overflow-wrap:anywhere}
@@ -153,7 +152,6 @@ h2,.form-aside h2{font-size:clamp(26px,7.6vw,37px)}
 .soc a:hover{background:var(--blue);border-color:var(--blue);transform:translateY(-2px)}
 .soc a:hover svg{fill:#fff}
 .foot-bottom{border-top:1px solid var(--line);padding-top:var(--s-4);display:flex;justify-content:space-between;gap:var(--s-3);flex-wrap:wrap;font-size:var(--fs-sm);color:var(--ink-3)}
-.tbd{color:var(--ink-3);font-style:normal}
 .foot-col a.foot-ct{display:flex;align-items:flex-start;gap:10px}
 .foot-ct svg{width:17px;height:17px;flex:none;fill:currentColor;margin-top:4px}
 .foot-ct span{min-width:0;overflow-wrap:anywhere}
