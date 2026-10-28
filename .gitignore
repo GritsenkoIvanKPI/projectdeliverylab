@@ -1,40 +1,35 @@
+
 # dependencies (node_modules here is a symlink to a sibling project)
-node_modules
-
-# working artefacts
-temporary screenshots/
-
 # internal working documents — not for a public repo
-CLIENT_BRIEF.md
-Project management Course _ Бриф.txt
-CLAUDE.md
-SKILL.md
-SKILL canvas.md
-GEMINI_IMAGE_GENERATION.md
-desktop.png
-
 # os
-.DS_Store
-Thumbs.db
-
-# токен бота — тільки на сервері, ніколи в git
-/config.php
-
+# working artefacts
+# вихідне відео від клієнта — у репозиторій іде стиснена копія в assets/video/
 # зібрана тека для заливки на хостинг — перезбирається за потреби
 # зібрані теки для заливки — перезбираються за потреби
+# скріншоти, що падають у теку з Telegram
+# токен бота — тільки на сервері, ніколи в git
+.DS_Store
+/25/
+/config.php
 /deploy/
+/firstscreen.jpg
+/newphoto.jpg
+/video.mp4
+/Для категорії + юридичний текст/
+CLAUDE.md
+CLIENT_BRIEF.md
+GEMINI_IMAGE_GENERATION.md
+Project management Course _ Бриф.txt
+SKILL canvas.md
+SKILL.md
+Thumbs.db
 deploy*/
 deploy.zip
-projectdeliverylab-site.zip
-
-# скріншоти, що падають у теку з Telegram
-telegram-cloud-photo-*
-
-# вихідне відео від клієнта — у репозиторій іде стиснена копія в assets/video/
-/video.mp4
-/newphoto.jpg
-/firstscreen.jpg
-/25/
-projectdeliverylab-site/
+desktop.png
+node_modules
 projectdeliverylab-site */
-/Для категорії + юридичний текст/
+projectdeliverylab-site.zip
+projectdeliverylab-site/
+telegram-cloud-photo-*
+temporary screenshots/
+Для категорії*
