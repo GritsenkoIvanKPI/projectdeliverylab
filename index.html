@@ -709,6 +709,9 @@ section{position:relative}
 }
 .mrow-list li.is-ws::before{background:var(--orange)}
 .mrow-list li.is-ws{color:var(--ink)}
+/* У програмі клієнта останній модуль не має підпунктів — рядок не розкривається. */
+.mrow--static .mrow-head{grid-template-columns:minmax(0,1fr)}
+.mrow--static:hover{border-color:var(--line)}
 .modules-cta{margin-top:var(--s-5);display:flex;justify-content:center}
 
 /* ============================================================
@@ -1588,7 +1591,7 @@ section{position:relative}
       <article class="mrow is-open reveal">
         <button class="mrow-head" aria-expanded="true">
           <span class="mrow-main">
-            <span class="mrow-title">Основи IT-індустрії</span>
+            <span class="mrow-title">Основи IT індустрії</span>
             <span class="tag tag--num">Модуль 1</span>
           </span>
           <span class="mrow-ico" aria-hidden="true">
@@ -1599,8 +1602,8 @@ section{position:relative}
           <div>
             <ul class="mrow-list">
               <li>Домени</li>
-              <li>Види компаній в IT</li>
-              <li>Види контрактів в IT</li>
+              <li>види компаній в IT</li>
+              <li>види контрактів в IT</li>
             </ul>
           </div>
         </div>
@@ -1609,7 +1612,7 @@ section{position:relative}
       <article class="mrow reveal">
         <button class="mrow-head" aria-expanded="false">
           <span class="mrow-main">
-            <span class="mrow-title">Основи управління IT-проєктами</span>
+            <span class="mrow-title">Основи управління IT проєктами</span>
             <span class="tag tag--num">Модуль 2</span>
           </span>
           <span class="mrow-ico" aria-hidden="true">
@@ -1620,10 +1623,10 @@ section{position:relative}
           <div>
             <ul class="mrow-list">
               <li>Стейкхолдери</li>
-              <li>IT-термінологія</li>
+              <li>IT термінінологія</li>
               <li>SDLC</li>
-              <li>Процес. Проєкт. Продукт</li>
-              <li>Хто такий PM</li>
+              <li>Процес. Проект. Продукт.</li>
+              <li>Хто такий ПМ?</li>
             </ul>
           </div>
         </div>
@@ -1632,7 +1635,7 @@ section{position:relative}
       <article class="mrow reveal">
         <button class="mrow-head" aria-expanded="false">
           <span class="mrow-main">
-            <span class="mrow-title">Основи Agile: Scrum &amp; Kanban</span>
+            <span class="mrow-title">Основи Agile: SCRUM &amp; Kanban</span>
             <span class="tag tag--num">Модуль 3</span>
           </span>
           <span class="mrow-ico" aria-hidden="true">
@@ -1643,7 +1646,7 @@ section{position:relative}
           <div>
             <ul class="mrow-list">
               <li>Agile</li>
-              <li>Scrum</li>
+              <li>SCRUM</li>
               <li>Kanban</li>
             </ul>
           </div>
@@ -1653,7 +1656,7 @@ section{position:relative}
       <article class="mrow reveal">
         <button class="mrow-head" aria-expanded="false">
           <span class="mrow-main">
-            <span class="mrow-title">Delivery Workflow &amp; Jira Fundamentals</span>
+            <span class="mrow-title">Delivery WorkFlow &amp; Jira fundamentales</span>
             <span class="tag tag--num">Модуль 4</span>
             <span class="tag tag--ws">3 воркшопи</span>
           </span>
@@ -1665,11 +1668,11 @@ section{position:relative}
           <div>
             <ul class="mrow-list">
               <li>Delivery Status Flow. Ролі та правила переходів між статусами</li>
-              <li class="is-ws">Воркшоп: опис процесів у Confluence</li>
+              <li class="is-ws">Workshop - Опис процесів в Confluence</li>
               <li>DoR, DoD</li>
-              <li class="is-ws">Воркшоп: створення проєкту в Jira. Налаштування Delivery workflow</li>
+              <li class="is-ws">Workshop - Створення проекту в JIRA. Налаштування Delivery workflow.</li>
               <li>Як описувати задачі</li>
-              <li class="is-ws">Воркшоп: створення задач та визначення виконавця в Jira</li>
+              <li class="is-ws">Workshop. Створення задач та визначення виконавця в JIRA</li>
             </ul>
           </div>
         </div>
@@ -1678,8 +1681,7 @@ section{position:relative}
       <article class="mrow reveal">
         <button class="mrow-head" aria-expanded="false">
           <span class="mrow-main">
-            <span class="mrow-title">Впровадження Scrum</span>
-            <span class="tag tag--num">Модуль 5</span>
+            <span class="mrow-title">Модуль 5</span>
             <span class="tag tag--ws">4 воркшопи</span>
           </span>
           <span class="mrow-ico" aria-hidden="true">
@@ -1689,12 +1691,12 @@ section{position:relative}
         <div class="mrow-body">
           <div>
             <ul class="mrow-list">
-              <li>Як впровадити Scrum з нуля</li>
+              <li>Як впровадити SCRUM з нуля</li>
               <li>Grooming та оцінка задач</li>
-              <li class="is-ws">Воркшоп: симуляція Grooming Session</li>
-              <li class="is-ws">Воркшоп: Poker Planning</li>
-              <li class="is-ws">Воркшоп: метрики Scrum. Як зробити Velocity Chart</li>
-              <li class="is-ws">Воркшоп: Scrum ceremonies</li>
+              <li class="is-ws">Workshop. Симуляція Grooming Session</li>
+              <li class="is-ws">Workshop. Poker Planning</li>
+              <li class="is-ws">Workshop. Метріки SCRUM. Як зробити Velocity Chart</li>
+              <li class="is-ws">Workshop. Scrum ceremonies</li>
             </ul>
           </div>
         </div>
@@ -1703,8 +1705,7 @@ section{position:relative}
       <article class="mrow reveal">
         <button class="mrow-head" aria-expanded="false">
           <span class="mrow-main">
-            <span class="mrow-title">Впровадження Kanban</span>
-            <span class="tag tag--num">Модуль 6</span>
+            <span class="mrow-title">Модуль 6</span>
             <span class="tag tag--ws">Воркшоп</span>
           </span>
           <span class="mrow-ico" aria-hidden="true">
@@ -1715,7 +1716,7 @@ section{position:relative}
           <div>
             <ul class="mrow-list">
               <li>Як імплементувати Kanban</li>
-              <li class="is-ws">Воркшоп: як налаштувати Kanban у Jira. Метрики Kanban</li>
+              <li class="is-ws">Workshop. Як налаштувати Kanban в JIRA. Метріки Kanban.</li>
             </ul>
           </div>
         </div>
@@ -1724,7 +1725,7 @@ section{position:relative}
       <article class="mrow reveal">
         <button class="mrow-head" aria-expanded="false">
           <span class="mrow-main">
-            <span class="mrow-title">Risk &amp; Change Management</span>
+            <span class="mrow-title">Risk &amp; Change management</span>
             <span class="tag tag--num">Модуль 7</span>
             <span class="tag tag--ws">2 воркшопи</span>
           </span>
@@ -1735,8 +1736,8 @@ section{position:relative}
         <div class="mrow-body">
           <div>
             <ul class="mrow-list">
-              <li class="is-ws">Воркшоп: як працювати з ризиками</li>
-              <li class="is-ws">Воркшоп: як управляти змінами</li>
+              <li class="is-ws">Workshop. Як працювати з ризиками</li>
+              <li class="is-ws">Workshop. Як управляти змінами</li>
             </ul>
           </div>
         </div>
@@ -1756,7 +1757,7 @@ section{position:relative}
           <div>
             <ul class="mrow-list">
               <li>Blocked task</li>
-              <li>QA в delivery-процесі: QA First approach та testing reporting</li>
+              <li>QA в Delivery process: QA first approach та Testing reporting</li>
               <li>Release management</li>
             </ul>
           </div>
@@ -1776,7 +1777,7 @@ section{position:relative}
         <div class="mrow-body">
           <div>
             <ul class="mrow-list">
-              <li>Підготовка та оптимізація CV і LinkedIn</li>
+              <li>Підготовка на оптимізація CV та Linkdn</li>
               <li>Ресурси для пошуку вакансій</li>
               <li>Як проводити співбесіду</li>
             </ul>
@@ -1784,23 +1785,12 @@ section{position:relative}
         </div>
       </article>
 
-      <article class="mrow reveal">
-        <button class="mrow-head" aria-expanded="false">
+      <article class="mrow mrow--static reveal">
+        <div class="mrow-head">
           <span class="mrow-main">
-            <span class="mrow-title">Захист власної моделі управління</span>
+            <span class="mrow-title">Захист власної моделі управління студента</span>
             <span class="tag tag--num">Модуль 10</span>
-            <span class="tag tag--key">Фінальний модуль</span>
           </span>
-          <span class="mrow-ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-          </span>
-        </button>
-        <div class="mrow-body">
-          <div>
-            <ul class="mrow-list">
-              <li>Захист моделі управління, яку ви зібрали за час курсу</li>
-            </ul>
-          </div>
         </div>
       </article>
     </div>
