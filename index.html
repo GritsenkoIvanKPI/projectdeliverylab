@@ -710,8 +710,32 @@ section{position:relative}
 .mrow-list li.is-ws::before{background:var(--orange)}
 .mrow-list li.is-ws{color:var(--ink)}
 /* У програмі клієнта останній модуль не має підпунктів — рядок не розкривається. */
-.mrow--static .mrow-head{grid-template-columns:minmax(0,1fr)}
-.mrow--static:hover{border-color:var(--line)}
+
+/* Фінал програми — окремий пункт поза списком модулів. */
+.final-note{
+  position:relative;margin-top:12px;padding:30px 32px;border-radius:var(--r-card);
+  background:var(--blue);box-shadow:var(--sh-3);overflow:hidden;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.final-note::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(46% 150% at 100% 0%, rgba(255,100,36,.34), transparent 62%),
+    radial-gradient(42% 140% at 0% 100%, rgba(148,172,255,.34), transparent 60%);
+}
+.final-note-tag{
+  position:relative;flex:none;display:inline-flex;align-items:center;
+  background:var(--orange);color:#fff;border-radius:999px;padding:7px 14px;
+  font-size:var(--fs-xs);line-height:1;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+}
+.final-note-t{
+  position:relative;margin:0;min-width:0;
+  font-family:var(--font-display);text-transform:uppercase;font-weight:600;
+  font-size:clamp(20px,2.1vw,26px);line-height:1.2;letter-spacing:-.01em;color:#fff;
+}
+@media (max-width:640px){
+  .final-note{padding:24px;gap:14px;align-items:flex-start;flex-direction:column}
+}
 .modules-cta{margin-top:var(--s-5);display:flex;justify-content:center}
 
 /* ============================================================
@@ -1584,7 +1608,7 @@ section{position:relative}
     <div class="head-center">
       <span class="eyebrow eyebrow--center reveal">Програма курсу</span>
       <h2 class="reveal" style="--d:70ms">Від основ IT-індустрії<br>до <span class="accent">захисту власної моделі</span></h2>
-      <p class="lead reveal" style="--d:130ms">10 модулів і 10 практичних воркшопів у Jira та Confluence — від першого знайомства з IT-індустрією до захисту власної моделі управління.</p>
+      <p class="lead reveal" style="--d:130ms">9 модулів і 13 практичних воркшопів у Jira та Confluence — від першого знайомства з IT-індустрією до захисту власної моделі управління.</p>
     </div>
 
     <div class="modules">
@@ -1748,6 +1772,7 @@ section{position:relative}
           <span class="mrow-main">
             <span class="mrow-title">Advanced Delivery Management</span>
             <span class="tag tag--num">Модуль 8</span>
+            <span class="tag tag--ws">3 воркшопи</span>
           </span>
           <span class="mrow-ico" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
@@ -1756,9 +1781,9 @@ section{position:relative}
         <div class="mrow-body">
           <div>
             <ul class="mrow-list">
-              <li>Blocked task</li>
-              <li>QA в Delivery process: QA first approach та Testing reporting</li>
-              <li>Release management</li>
+              <li class="is-ws">Blocked task</li>
+              <li class="is-ws">QA в Delivery process: QA first approach та Testing reporting</li>
+              <li class="is-ws">Release management</li>
             </ul>
           </div>
         </div>
@@ -1785,14 +1810,11 @@ section{position:relative}
         </div>
       </article>
 
-      <article class="mrow mrow--static reveal">
-        <div class="mrow-head">
-          <span class="mrow-main">
-            <span class="mrow-title">Захист власної моделі управління студента</span>
-            <span class="tag tag--num">Модуль 10</span>
-          </span>
-        </div>
-      </article>
+    </div>
+
+    <div class="final-note reveal">
+      <span class="final-note-tag">Фінал курсу</span>
+      <p class="final-note-t">Захист власної моделі управління студента</p>
     </div>
 
     <div class="modules-cta reveal">
@@ -2091,7 +2113,7 @@ section{position:relative}
           <button class="qa-q" aria-expanded="false">Який формат занять?
             <span class="qa-ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
           </button>
-          <div class="qa-a"><div><p>Модулі поєднуються з десятьма практичними воркшопами: опис процесів у Confluence, налаштування проєкту й delivery workflow у Jira, грумінг, Poker Planning, Velocity Chart, метрики Kanban, робота з ризиками та змінами. Завершується все захистом власної моделі управління.</p></div></div>
+          <div class="qa-a"><div><p>Модулі поєднуються з тринадцятьма практичними воркшопами: опис процесів у Confluence, налаштування проєкту й delivery workflow у Jira, грумінг, Poker Planning, Velocity Chart, метрики Kanban, робота з ризиками та змінами. Завершується все захистом власної моделі управління.</p></div></div>
         </div>
 
         <div class="qa reveal" style="--d:240ms">
@@ -2845,7 +2867,7 @@ section{position:relative}
           "name": "Який формат занять?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Модулі поєднуються з десятьма практичними воркшопами: опис процесів у Confluence, налаштування проєкту й delivery workflow у Jira, грумінг, Poker Planning, Velocity Chart, метрики Kanban, робота з ризиками та змінами. Завершується все захистом власної моделі управління."
+            "text": "Модулі поєднуються з тринадцятьма практичними воркшопами: опис процесів у Confluence, налаштування проєкту й delivery workflow у Jira, грумінг, Poker Planning, Velocity Chart, метрики Kanban, робота з ризиками та змінами. Завершується все захистом власної моделі управління."
           }
         },
         {
